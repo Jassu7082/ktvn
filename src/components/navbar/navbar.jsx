@@ -11,7 +11,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex border-b-2 border-[slate-100] bg-slate-900 z-10 items-center justify-between px-4 sticky top-0 py-4 border-slate-300/10 ">
+        <div className="flex border-b-2 border-[slate-100] bg-[#081F37] z-10 items-center justify-between px-4 sticky top-0 py-4 border-slate-300/10 ">
             <div className="flex items-center gap-2 ">
                 <img className="h-12 w-12 " src={logo} alt="Logo" />
                 <p className="text-2xl font-bold text-slate-100">
