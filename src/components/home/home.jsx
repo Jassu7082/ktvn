@@ -15,6 +15,20 @@ function Home() {
             <div>
                 <Slider />
             </div>
+            <div className='grid w-lvw grid-rows-3 lg:grid-cols-3 gap-4 ">'>
+            <div>
+                <img src={school} alt="Home" className="h-[300px] w-[300px] " />
+                <p className="w-[300px] text-justify">Our educators blend academic expertise with real-world insights,  cultivating a dynamic learning environment. They inspire, engage, and  empathize with students, nurturing their individuality and aspirations.  With advanced degrees and a passion for teaching, they personalize  instruction to meet diverse learning styles</p>
+            </div>
+            <div>
+                <img src={school} alt="Home" className="h-[300px] w-[300px] " />
+                <p className="w-[300px] text-justify">We blend child-led exploration, group learning, and guided skill  development to achieve our children's goals. Our seamless daily schedule  integrates indoor and outdoor activities, fostering comprehension  across diverse concepts. Specialized sessions in dedicated areas further  enrich their learning experiences.</p>
+            </div>
+            <div>
+                <img src={school} alt="Home" className="h-[300px] w-[300px] " />
+                <p className="w-[300px] text-justify">Our program nurtures students' skills in fine art, dance, and drama,  fostering confidence, creativity, and teamwork. Core values of kindness,  respect, and integrity define our ethos, where mutual support and  celebration of achievements are paramount. Each student is valued and  expected to extend respect to peers, forming a supportive community.</p>
+            </div>
+            </div>
             </div>
         </div>
     );
