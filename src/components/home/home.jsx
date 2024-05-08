@@ -20,7 +20,7 @@ function Home() {
                 </div>
             </div>
             <div 
-                className='h-lvh flex justify-center items-center gap-28'
+                className='h-lvh flex justify-center items-center gap-36'
                 style={{
                     backgroundImage: 'linear-gradient(to bottom, #081F37 3%, #52D3D8 100%)',
                 }}
