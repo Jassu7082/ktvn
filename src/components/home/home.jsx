@@ -10,12 +10,23 @@ function Home() {
             <div className="h-screen hidden sm:block flex justify-center items-center">
                 <img src={school} alt="Home" className="h-full w-full object-fit" />
             </div>
-            <div className="grid grid-rows-2 lg:grid-cols-2 gap-20 m-10 h-lvh">
-                <div>
-                    <center><h1 className='text-xl'>Why Choose Us?</h1></center>
-                    <p>Our distinguished faculty, equipped with advanced degrees, is devoted to  inspiring and nurturing students, fostering a supportive learning  environment where individuality thrives. Through personalized attention,  they uncover each student's unique strengths, interests, and goals,  guiding them towards academic excellence while cultivating creativity  and critical thinking. We prioritize a holistic approach to education,  valuing self-respect and respect for others, instilling enduring values  that transcend the confines of the classroom</p>
+            <div className="block sm:hidden bg-[#081F37]">
+                <div className="object-cover">
+                    <Slider />
                 </div>
-                <div>
+            </div>
+
+            <div className="lg:flex lg:justify-center p-10 gap-4 lg:items-center h-screen bg-[#081F37]">
+                {/* "Why Choose Us?" section */}
+                <div className="lg:w-1/2 lg:pr-10">
+                    <h1 className='text-2xl font-bold mb-4 text-white lg:text-center'>Why Choose Us?</h1>
+                    <p className="text-white">
+                        Our distinguished faculty, equipped with advanced degrees, is devoted to inspiring and nurturing students, fostering a supportive learning environment where individuality thrives. Through personalized attention, they uncover each student's unique strengths, interests, and goals, guiding them towards academic excellence while cultivating creativity and critical thinking. We prioritize a holistic approach to education, valuing self-respect and respect for others, instilling enduring values that transcend the confines of the classroom.
+                    </p>
+                </div>
+
+                {/* Slider */}
+                <div className="lg:w-1/2 hidden lg:block">
                     <Slider />
                 </div>
             </div>
