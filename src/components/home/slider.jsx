@@ -31,7 +31,7 @@ function Slider() {
   }, [currentIndex]);
 
   return (
-    <div className='max-w-[1400px] h-[350px] w-full m-auto px-1 relative group pt-0'>
+    <div className='max-w-[1400px] h-[240px] w-full m-auto px-1 relative group pt-0'>
       {/* Left Arrow - Hidden on small screens */}
       <div className='hidden lg:block absolute top-[50%] -translate-x-[150%] translate-y-[-50%] left-5 text-2xl rounded-full p-1 bg-black/20 text-white cursor-pointer'>
         <BsChevronCompactLeft onClick={prevSlide} size={30} />
