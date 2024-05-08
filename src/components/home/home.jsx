@@ -17,17 +17,21 @@ function Home() {
                 </div>
             </div>
 
-            <div className="lg:flex lg:justify-center p-10 gap-4 lg:items-center h-screen bg-[#081F37]">
+            <div className="lg:flex gap-10 lg:justify-center p-10 lg:items-center h-screen bg-[#081F37] px-40">
                 {/* "Why Choose Us?" section */}
-                <div className="lg:w-1/2 lg:pr-10">
+                <div className="lg:w-1/2">
                     <h1 className='text-2xl font-bold mb-4 text-white lg:text-center'>Why Choose Us?</h1>
-                    <p className="text-white">
-                        Our distinguished faculty, equipped with advanced degrees, is devoted to inspiring and nurturing students, fostering a supportive learning environment where individuality thrives. Through personalized attention, they uncover each student's unique strengths, interests, and goals, guiding them towards academic excellence while cultivating creativity and critical thinking. We prioritize a holistic approach to education, valuing self-respect and respect for others, instilling enduring values that transcend the confines of the classroom.
+                    <p className="text-white px-20 text-justify">
+                    Our distinguished faculty, equipped with advanced degrees, is devoted to  inspiring and nurturing students, 
+                    fostering a supportive learning  environment where individuality thrives. Through personalized attention,  
+                    they uncover each student's unique strengths, interests, and goals,  guiding them towards academic excellence 
+                    while cultivating creativity  and critical thinking. We prioritize a holistic approach to education,  valuing 
+                    self-respect and respect for others, instilling enduring values  that transcend the confines of the classroom.
                     </p>
                 </div>
 
                 {/* Slider */}
-                <div className="lg:w-1/2 hidden lg:block">
+                <div className="lg:w-1/2 lg:block">
                     <Slider />
                 </div>
             </div>
