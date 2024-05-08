@@ -4,6 +4,7 @@ import Slider from './slider';
 import cont3img1 from '../../assets/cont3img1.png';
 import cont3img2 from '../../assets/cont3img2.png';
 import cont3img3 from '../../assets/cont3img3.png';
+import Footer from '../Footer/Footer';
 function Home() {
     return (
         <div>
@@ -40,6 +41,7 @@ function Home() {
                 <Programs image={cont3img2} content="We blend child-led exploration, group learning, and guided skill  development to achieve our children's goals. Our seamless daily schedule  integrates indoor and outdoor activities, fostering comprehension  across diverse concepts. Specialized sessions in dedicated areas further  enrich their learning experiences." />
                 <Programs image={cont3img3} content="Our program nurtures students' skills in fine art, dance, and drama,  fostering confidence, creativity, and teamwork. Core values of kindness,  respect, and integrity define our ethos, where mutual support and  celebration of achievements are paramount. Each student is valued and  expected to extend respect to peers, forming a supportive community." />                
             </div>
+            <Footer />
         </div>
     );
 }
