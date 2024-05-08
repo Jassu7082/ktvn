@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'contrail': ['Contrail One', 'sans-serif']
+      }
+    }
   },
   plugins: [],
 }
