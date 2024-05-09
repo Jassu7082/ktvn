@@ -7,17 +7,17 @@ import youtube from '../../assets/youtube.png';
 function Footer() {
     return (
         <div 
-            className='h-[400px]'
+            className='lg:h-[400px] md:h-[600px]'
             style={{backgroundColor:'#081F37'}}
         >
-            <div className='pt-20 px-52 flex flex-col gap-10'>
-                <div className='flex gap-60 justify-center'>
-                    <div>
-                        <img src={footerImg} alt="" />
+            <div className='pt-20 2xl:px-52 xl:px-32 lg:px-24 flex flex-col gap-10'>
+                <div className='flex lg:flex-row md:flex-col sm:flex-col min-[320px]:flex-col items-center md:gap-10 min-[320px]:gap-6 2xl:gap-60 xl:gap-52 lg:gap-28 justify-center'>
+                    <div className='flex items-center justify-center md:size-full min-[320px]:w-[400px]'>
+                        <img src={footerImg} alt="" className=''/>
                     </div>
-                    <div className='flex gap-20 text-white'>
+                    <div className='flex 2xl:gap-20 xl:gap-16 lg:gap-10 md:gap-10 sm:gap-6 min-[320px]:gap-4 md:items-center md:justify-center text-white'>
                         <div className='flex flex-col gap-3'>
-                            <p className='font-extrabold text-lg'>Usefull Links</p>
+                            <p className='font-extrabold md:text-lg min-[320px]:text-sm'>Usefull Links</p>
                             <p className='text-base'>Home</p>
                             <p className='text-base'>About</p>
                             <p className='text-base'>Gallery</p>
@@ -25,14 +25,14 @@ function Footer() {
                         </div>
                         <div className='flex flex-col gap-3'>
                             <div className='flex flex-col'>
-                                <p className='font-extrabold text-lg pb-6'>Contact Information</p>
+                                <p className='font-extrabold md:text-lg pb-6 min-[320px]:text-sm'>Contact Information</p>
                                 <p className='text-base'>Phone: +91 9030088545</p>
                                 <p className='text-base'>Email: kakatiyavidyaniketn@gmail.com</p>
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <p className='font-extrabold text-lg'>Connect</p>
+                                <p className='font-extrabold md:text-lg min-[320px]:text-sm'>Connect</p>
                                 <div className='flex gap-2'>
-                                    <img src={insta} alt="" width="35" height="35" /> {/* change the images size to 25*25 */}
+                                    <img src={insta} alt="" width="35" height="35" /> {/* change the images size to 25*25  468*171 */}
                                     <img src={facebook} alt="" width="35" height="35" />
                                     <img src={youtube} alt="" width="35" height="35" />
                                 </div>
@@ -40,7 +40,7 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr className='lg:px-0 md:mx-24 sm:mx-16'/>
                 <p className='text-center font-extrabold text-white text-sm'>S Rami Reddy Educational Society (Residential & Non Residential - Recognised By Govt. of A.P)</p>
             </div>    
         </div>
