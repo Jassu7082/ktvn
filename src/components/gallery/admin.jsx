@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { imageDb } from '../../config/firebase-config';
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage"; 
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; 
+import { v4 as uuidv4 } from "uuid"; // Import the v4 function with alias
 import { Navigate } from "react-router-dom";
-// Import the v4 function from the uuid library
-import { v4 } from "uuid";
 
-function FirebaseImageUpload(){
-    const [img, setImg] = useState('');
-    const [imgUrl, setImgUrl] = useState([]);
+function FirebaseImageUpload() {
+    const [images, setImages] = useState([]); // State for storing uploaded images
     const [loggedIn, setLoggedIn] = useState(false);
+    const [title, setTitle] = useState(""); // State for post title
+    const [description, setDescription] = useState(""); // State for post description
 
     useEffect(() => {
         // Check if user is already logged in
@@ -34,55 +34,78 @@ function FirebaseImageUpload(){
         }
     };
 
-    const handleClick = () => {
-        if (loggedIn && img) {
-            const imgRef = ref(imageDb, `files/${v4()}`);
-            uploadBytes(imgRef, img).then((value) => {
-                console.log(value);
-                getDownloadURL(value.ref).then((url) => {
-                    setImgUrl((data) => [...data, url]);
-                });
-            });
-        } else {
-            console.log("User not logged in or no image selected");
-        }
+    const handleImageChange = (e) => {
+        setImages([...images, ...e.target.files]);
     };
 
-    useEffect(() => {
-        if (loggedIn) {
-            listAll(ref(imageDb, "files")).then((imgs) => {
-                console.log(imgs);
-                imgs.items.forEach((val) => {
-                    getDownloadURL(val).then((url) => {
-                        setImgUrl((data) => [...data, url]);
+    const handleUpload = () => {
+        if (loggedIn && images.length > 0) {
+            images.forEach((image) => {
+                const imgRef = ref(imageDb, `files/${uuidv4()}`); // Generate unique ID for each image
+                uploadBytes(imgRef, image).then((value) => {
+                    console.log(value);
+                    getDownloadURL(value.ref).then((url) => {
+                        // Handle image upload success
+                        console.log("Image uploaded:", url);
                     });
                 });
             });
+            // Clear the images state after upload
+            setImages([]);
+        } else {
+            console.log("User not logged in or no images selected");
         }
-    }, [loggedIn]);
+    };
 
     if (!loggedIn) {
         return (
             <div>
                 <p>You need to login to upload images</p>
-                <button onClick={handleLogin}>Login</button>
+                <Navigate to="/login" />
             </div>
         );
     }
 
     return (
-        <div>
-            <input type="file" onChange={(e) => setImg(e.target.files[0])} /> 
-            <button onClick={handleClick}>Upload</button>
-            <br/>
-            {
-                imgUrl.map((dataVal) => (
-                    <div key={dataVal}>
-                        <img src={dataVal} height="200px" width="200px" />
-                        <br/> 
-                    </div>
-                ))
-            }
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Upload Images</h1>
+            <div className="mb-4">
+                <label htmlFor="title" className="block mb-1">Title:</label>
+                <input
+                    type="text"
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="border rounded-md px-2 py-1 w-full"
+                />
+            </div>
+            <div className="mb-4">
+                <label htmlFor="description" className="block mb-1">Description:</label>
+                <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="border rounded-md px-2 py-1 w-full"
+                ></textarea>
+            </div>
+            <div className="mb-4">
+                <label htmlFor="image" className="block mb-1">Select Images:</label>
+                <input
+                    type="file"
+                    id="image"
+                    onChange={handleImageChange}
+                    multiple
+                    accept="image/*"
+                    className="mb-2"
+                />
+            </div>
+            <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded-md">Upload</button>
+            <div className="mt-4">
+                {/* Display uploaded images */}
+                {images.map((image, index) => (
+                    <img key={index} src={URL.createObjectURL(image)} alt={`Uploaded Image ${index}`} className="mt-2 mr-2 inline-block" style={{ width: "200px", height: "auto" }} />
+                ))}
+            </div>
         </div>
     );
 }
