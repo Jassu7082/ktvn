@@ -7,7 +7,7 @@ import Gallery from './components/gallery/gallery';
 import Batches from './components/batches/batches';
 import FirebaseImageUpload from './components/gallery/admin';
 import SignInForm from './components/gallery/login';
-
+import { Analytics } from "@vercel/analytics/react";
 function App() {
   return (
     <Router>
