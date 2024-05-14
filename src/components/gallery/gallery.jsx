@@ -25,17 +25,17 @@ const Gallery = () => {
     // Render loading spinner or message if still loading
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center bg-[#081F37] items-center h-screen">
                 <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20"></div>
             </div>
         );
     }
 
     return (
-        <div>
-            <div className="container mx-auto px-4 py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="bg-[#081F37]">
+            <div className="container mx-auto px-4 py-8  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-b">
                 {imgUrl.map((imageUrl, index) => (
-                    <div key={index} className="rounded-lg overflow-hidden shadow-md">
+                    <div key={index} className="rounded-lg bg-slate-900 overflow-hidden border border-black">
                         <img
                             src={imageUrl}
                             alt={`Image ${index}`}
