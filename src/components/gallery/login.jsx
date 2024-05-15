@@ -25,6 +25,7 @@ const SignInForm = () => {
             // Firebase sign in logic here
             await signInWithEmailAndPassword(auth, email, password);
             toast.success('Sign in successful');
+            <Navigate to="/admin" />;
         } catch (error) {
             console.error('Sign-in error:', error.message);
             const errorMessage = error.message.split(': ')[1]; // Extract relevant part of error message

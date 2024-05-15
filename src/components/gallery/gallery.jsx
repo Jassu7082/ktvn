@@ -1,28 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { imageDb } from '../../config/firebase-config';
+import { imageDb, txtDB } from '../../config/firebase-config';
 import { getDownloadURL, listAll, ref } from "firebase/storage";
+import { collection, getDocs } from "firebase/firestore";
 import Footer from "../Footer/Footer";
 
 const Gallery = () => {
-    const [imgUrl, setImgUrl] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // State to track loading status
+    const [imgData, setImgData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        listAll(ref(imageDb, "files")).then(imgs => {
-            const promises = imgs.items.map(item =>
-                getDownloadURL(item).then(url => url)
-            );
-            Promise.all(promises).then(urls => {
-                // Filter out duplicate URLs
-                const uniqueUrls = Array.from(new Set(urls));
-                // Reverse the array to show latest uploads at the top
-                setImgUrl(uniqueUrls.reverse());
-                setIsLoading(false); // Set loading to false after images are loaded
-            });
-        });
+        fetchData();
     }, []);
 
-    // Render loading spinner or message if still loading
+    const fetchData = async () => {
+        try {
+            // Fetch the data from Firestore
+            const txtDataCollection = collection(txtDB, "txtData");
+            const txtDataSnapshot = await getDocs(txtDataCollection);
+            const imgDataArray = txtDataSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+            // Fetch the images URLs
+            const imgUrls = await Promise.all(
+                imgDataArray.map(async (imgData) => {
+                    const imgRef = ref(imageDb, imgData.imgUrl);
+                    const url = await getDownloadURL(imgRef);
+                    return { ...imgData, url };
+                })
+            );
+
+            setImgData(imgUrls);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setIsLoading(false);
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="flex justify-center bg-[#081F37] items-center h-screen">
@@ -33,14 +46,18 @@ const Gallery = () => {
 
     return (
         <div className="bg-[#081F37]">
-            <div className="container mx-auto px-4 py-8  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-b">
-                {imgUrl.map((imageUrl, index) => (
+            <div className="container mx-auto px-4 py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-b">
+                {imgData.map((data, index) => (
                     <div key={index} className="rounded-lg bg-slate-900 overflow-hidden border border-black">
                         <img
-                            src={imageUrl}
+                            src={data.url}
                             alt={`Image ${index}`}
                             className="w-full h-64 object-contain"
                         />
+                        <div className="p-4">
+                            <h3 className="text-lg font-semibold text-white mb-2">{data.title}</h3>
+                            <p className="text-sm text-gray-300">{data.description}</p>
+                        </div>
                     </div>
                 ))}
             </div>
