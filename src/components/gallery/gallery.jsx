@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { imageDb, txtDB } from '../../config/firebase-config';
-import { getDownloadURL, listAll, ref } from "firebase/storage";
+import { getDownloadURL, ref } from "firebase/storage";
 import { collection, getDocs } from "firebase/firestore";
 import Footer from "../Footer/Footer";
 
@@ -22,7 +22,7 @@ const Gallery = () => {
             // Fetch the images URLs
             const imgUrls = await Promise.all(
                 imgDataArray.map(async (imgData) => {
-                    const imgRef = ref(imageDb, imgData.imgUrl);
+                    const imgRef = ref(imageDb, imgData.imgUrl.replace(/^gs:\/\/[^\/]+\/(.+)$/, '$1'));
                     const url = await getDownloadURL(imgRef);
                     return { ...imgData, url };
                 })
