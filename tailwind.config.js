@@ -8,7 +8,8 @@ export default {
     extend: {
       fontFamily: {
         'contrail': ['Contrail One', 'sans-serif']
-      }
+      },
+      
     }
   },
   plugins: [],
