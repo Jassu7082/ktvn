@@ -32,7 +32,7 @@ const AnimatedStats = () => {
                 <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
                     {stats.map((stat, index) => (
                         <div key={index} className="mx-auto flex max-w-xs flex-col items-center gap-y-4">
-                            <dt className="text-base leading-7 text-gray-600">{stat.label}</dt>
+                            <dt className="text-base leading-7 text-gray-100">{stat.label}</dt>
                             <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
                                 <div className="relative flex items-center justify-center h-20 w-20 rounded-full text-white">
                                     {Math.round(counts[index])}
