@@ -30,15 +30,15 @@ function Footer() {
                             <div className='flex flex-col'>
                                 <span className='font-extrabold md:text-lg pb-6 min-[320px]:text-sm'>Contact Information</span>
                                 <span className='text-base'>Phone: +91 9030088545</span>
-                                <span className='text-base'>Email: kakatiyavidyaniketn@gmail.com</span>
+                                <span className='text-base'>Email: kakatiyadmm@gmail.com</span>
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-extrabold md:text-lg min-[320px]:text-sm'>Connect</p>
                                 <div className='flex gap-2'>
-                                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://www.instagram.com/kakatiyavidyaniketan_dmm" target="_blank" rel="noopener noreferrer">
                                         <FontAwesomeIcon icon={faInstagram} size="2x" className="text-white hover:text-gray-400" />
                                     </a>
-                                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://www.facebook.com/kakatiyavidyaniketan.dharmavaram" target="_blank" rel="noopener noreferrer">
                                         <FontAwesomeIcon icon={faFacebook} size="2x" className="text-white hover:text-gray-400" />
                                     </a>
                                     <a href="https://youtube.com/@kakatiyavidyanikethanemsch2239" target="_blank" rel="noopener noreferrer">

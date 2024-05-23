@@ -42,7 +42,7 @@ function Home() {
         </div>
       </div>
       <div
-        className="h-3/4vh lg:h-lvh grid grid-row-3 lg:grid-cols-3 justify-center items-center gap-4"
+        className="h-3/4vh lg:h-lvh grid grid-row-3 lg:grid-cols-3 justify-center items-center gap-4 p-4"
         style={{
           backgroundImage: "linear-gradient(to bottom, #081F37, #52D3D8)", // Adjust the gradient stops as needed
           backgroundSize: "cover",

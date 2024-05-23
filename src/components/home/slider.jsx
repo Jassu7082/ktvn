@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
-import { RxDotFilled } from 'react-icons/rx';
-import image0 from '../../assets/home_1.jpg'; // Example image import
-import test from '../../assets/school.jpg';
+import image0 from '../../assets/home_1.jpg'; 
+import image1 from '../../assets/home_2.jpg'; 
+import image2 from '../../assets/home_3.jpg';  
+import image3 from '../../assets/home_4.jpg';
 
 function Slider() {
-  const slides = [image0, test]; // Add more images to the slides array as needed
+  const slides = [image0,image1,image2,image3]; // Add more images to the slides array as needed
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -31,32 +31,34 @@ function Slider() {
   }, [currentIndex]);
 
   return (
-    <div className='max-w-[1400px] h-[240px] w-full m-auto px-1 relative group pt-0'>
-      {/* Left Arrow - Hidden on small screens */}
-      <div className='hidden lg:block absolute top-[50%] -translate-x-[150%] translate-y-[-50%] left-5 text-2xl rounded-full p-1 bg-black/20 text-white cursor-pointer'>
-        <BsChevronCompactLeft onClick={prevSlide} size={30} />
-      </div>
-      
-      {/* Slider */}
-      <div style={{ backgroundImage: `url(${slides[currentIndex]})` }} className='w-full h-full bg-center bg-cover'></div>
-      
-      {/* Right Arrow - Hidden on small screens */}
-      <div className='hidden lg:block absolute top-[50%] -translate-x-[-150%] translate-y-[-50%] right-5 text-2xl rounded-full p-1 bg-black/20 text-white cursor-pointer'>
-        <BsChevronCompactRight onClick={nextSlide} size={30} />
-      </div>
-      
-      {/* Dot indicators */}
-      <div className='flex top-4 justify-center py-2'>
-        {slides.map((slide, slideIndex) => (
+    <div id="indicators-carousel" className="relative w-full" data-carousel="static">
+      {/* Carousel wrapper */}
+      <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+        {slides.map((slide, index) => (
           <div
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-            className={`text-4xl cursor-pointer ${currentIndex === slideIndex ? 'text-[#52D3D8] rounded-full' : 'text-white'}`}
-          >
-            <RxDotFilled />
-          </div>
+            key={index}
+            className={`absolute block w-full h-full transition-opacity duration-700 ease-in-out ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ backgroundImage: `url(${slide})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            data-carousel-item={index === currentIndex ? 'active' : ''}
+          ></div>
         ))}
       </div>
+
+      {/* Slider indicators */}
+      <div className="absolute z-2 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
+        {slides.map((_, slideIndex) => (
+          <button
+            key={slideIndex}
+            type="button"
+            className={`w-3 h-3 rounded-full ${currentIndex === slideIndex ? 'bg-[#52D3D8]' : 'bg-white'}`}
+            aria-current={currentIndex === slideIndex}
+            aria-label={`Slide ${slideIndex + 1}`}
+            onClick={() => goToSlide(slideIndex)}
+          ></button>
+        ))}
+      </div>     
     </div>
   );
 }
