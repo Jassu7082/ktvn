@@ -17,7 +17,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="lg:flex lg:justify-center p-10 gap-4 lg:items-center h-screen bg-[#081F37]">
+      <div className="lg:flex lg:justify-center px-10 pt-10 gap-4 lg:items-center h-screen bg-[#081F37]">
         {/* "Why Choose Us?" section */}
         <div className="lg:w-1/2 lg:pr-10">
           <h1 className="text-2xl font-bold mb-4 text-white lg:text-center">
@@ -42,7 +42,7 @@ function Home() {
         </div>
       </div>
       <div
-        className="h-3/4vh lg:h-lvh grid grid-row-3 lg:grid-cols-3 justify-center items-center gap-4 p-4"
+        className="h-3/4vh lg:h-lvh grid grid-row-3 lg:grid-cols-3 justify-center items-center gap-4 p-4 place-items-center pb-10"
         style={{
           backgroundImage: "linear-gradient(to bottom, #081F37, #52D3D8)", // Adjust the gradient stops as needed
           backgroundSize: "cover",
