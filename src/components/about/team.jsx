@@ -44,7 +44,7 @@ const TeamSection = () => {
   return (
     <section className="p-4">
       <h2 className="text-2xl font-bold mb-4 text-white text-center ">Meet The Team</h2>
-      <div className="grid grid-cols-1 items-center lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 items-center lg:grid-cols-4 gap-4 px-10">
         {members.map((member, index) => (
           <div key={index} className="bg-white rounded-lg shadow-md p-4">
             <img src={member.imageUrl} alt={member.name} className="w-full h-48 object-contain mb-4 rounded-lg" />

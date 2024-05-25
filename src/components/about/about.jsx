@@ -32,10 +32,10 @@ const About = () => {
           <AnimatedStats />
         </div>
       </div>
-      <div>
+      <div className='lg:py-20'>
         <TeamSection />
       </div>
-      <div className='border-b '>
+      <div className='border-b lg:pb-20'>
         <ContactPage />
       </div>
       <Footer />

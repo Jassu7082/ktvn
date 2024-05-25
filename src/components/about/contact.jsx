@@ -22,7 +22,7 @@ const ContactPage = () => {
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold mb-4 text-white text-center">Contact Us</h1>
         <div className="flex flex-wrap justify-center items-start">
-          <div className="w-full lg:w-1/2 px-4 mb-8">
+          <div className="w-full lg:w-1/2 px-4 sm:px-10 mb-8">
             <div className="bg-white shadow-md rounded p-4">
               {/* Embedded Google Map */}
               <iframe
@@ -43,7 +43,7 @@ const ContactPage = () => {
               <p>Website: www.kakatiyavidyaniketan.com</p>
             </div>
           </div>
-          <div className="w-full lg:w-1/2 px-4">
+          <div className="w-full lg:w-1/2 px-4 m-auto">
             {/* Contact Form */}
             <form onSubmit={handleSubmit} className="bg-[#081F37] text-white border border-white rounded px-8 pt-6 pb-8 mb-4">
               <div className="mb-4">

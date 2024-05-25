@@ -30,9 +30,10 @@ const Batches = () => {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-1 text-center lg:grid-cols-4 gap-4 border-b p-4">
+      {/* <div className="grid grid-cols-1 text-center lg:grid-cols-4 gap-4 border-b p-4 "> */}
+      <div className="flex flex-wrap justify-center gap-6 border-b p-4 pb-12">
         {batches[selectedBatch].map((member, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md p-4">
+          <div key={index} className="bg-white rounded-lg shadow-md px-14 py-4">
             <img src={member.imageUrl} alt={member.name} className="w-full h-48 object-contain mb-4 rounded-lg" />
             <h3 className="text-lg font-semibold mb-2">{member.name}</h3>
             <p className="text-gray-700 mb-2">Batch: <b>{member.batch}</b></p>

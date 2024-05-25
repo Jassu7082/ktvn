@@ -49,7 +49,7 @@ const Gallery = () => {
 
     return (
         <div className="bg-[#081F37]">
-            <div className="container mx-auto px-4 py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-b">
+            <div className="container mx-auto px-4 py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-b pb-20">
                 {imgData.map((data, index) => (
                     <div key={index} className="rounded-lg bg-slate-900 overflow-hidden border border-black">
                         <img
