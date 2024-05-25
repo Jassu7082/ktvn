@@ -17,7 +17,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="lg:flex lg:justify-center px-10 pt-10 gap-4 lg:items-center h-screen bg-[#081F37]">
+      <div className="lg:flex lg:justify-center px-10 pt-10 gap-4 lg:items-center lg:h-screen bg-[#081F37]">
         {/* "Why Choose Us?" section */}
         <div className="lg:w-1/2 lg:pr-10">
           <h1 className="text-2xl font-bold mb-4 text-white lg:text-center">
