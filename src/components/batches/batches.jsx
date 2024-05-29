@@ -52,7 +52,7 @@ const Batches = () => {
 const ProfileCard = ({ image, name, details }) => {
   return (
     <div className="bg-slate-950 border border-white rounded-lg shadow-md flex  md:flex-row p-1 max-w-sm mx-auto">
-      <img className="w-full h-40 md:h-auto rounded-lg object-fit w-1/3 mr-0 mr-4" src={image} alt={name} />
+      <img className=" h-40 md:h-auto rounded-lg object-fit w-1/3 mr-0 mr-4" src={image} alt={name} />
       <div className="flex flex-col justify-center bg-slate-900 p-4 w-2/3 text-white">
         <h2 className="text-xl font-bold">{name}</h2>
         <ul className="list-none mt-2">
