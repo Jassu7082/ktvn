@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import batch2022_2023 from './batch2022_2023';
 import batch2023_2024 from './batch2023_2024';
 import Footer from '../Footer/Footer';
 
 const Batches = () => {
   const batches = {
-    '2022-2023': batch2022_2023,
     '2023-2024': batch2023_2024,
   };
 
