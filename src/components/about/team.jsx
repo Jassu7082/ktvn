@@ -1,41 +1,46 @@
 import React from 'react';
-
+import jaya from '../../assets/team/jaya.jpg';
+import ramireddy from '../../assets/team/ramireddy.jpg';
+import suryaprakash from '../../assets/team/suryaprakash.jpg';
+import padma from '../../assets/team/padma.jpg';
+import rajasekhar from '../../assets/team/rajasekhar.jpg';
+import nirmala from '../../assets/team/nirmala.jpg';
 const members = [
     {
       position: 'Founder',
       name: 'S Rami Reddy',
       description: "To provide students a positive, stimulating, and caring environment that encourages the fulfillment of individual potential and the growth of self-esteem in all areas.",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      imageUrl:ramireddy, // Placeholder image URL
     },
     {
       position: 'Principal',
       name: 'S Nirmala Jayachandra Reddy',
       description: "To develop within students an attitude of individual responsibility based upon the values of honesty, respect, self-control, equality, care, and concern for others.",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      imageUrl: nirmala, // Placeholder image URL
     },
     {
       position: 'Director',
       name: 'S Suryaprakash Reddy',
       description: "To develop and maintain a balance between the child's intelligence quotient, emotional quotient, and try to tip the balance in favor of the joy quotient.",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      imageUrl: suryaprakash, // Placeholder image URL
     },
     {
       position: 'Director',
       name: 'S Padma',
-      description: "Our teachers lead, inspire, excite, and relate to students in a loving, supportive manner. Our teachers get to know and appreciate each child's unique interests, strengths.",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      description: "Devoted educators ignite, guide, connect with students, fostering a caring haven. They champion each child's unique talents, unlocking potential through personalized attention.",
+      imageUrl:padma, // Placeholder image URL
     },
     {
       position: 'Director',
       name: 'S Rajasekhar Reddy',
       description: "MCA",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      imageUrl: rajasekhar, // Placeholder image URL
     },
     {
       position: 'Empowering Leader',
       name: 'S Jayachandra Reddy',
       description: "M.A M.Ed Teacher",
-      imageUrl: "https://via.placeholder.com/150", // Placeholder image URL
+      imageUrl: jaya, // Placeholder image URL
     }
   ];
   
