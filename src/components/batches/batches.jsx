@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import batch2022_2023 from './batch2022_2023';
 import batch2023_2024 from './batch2023_2024';
 import Footer from '../Footer/Footer';
@@ -24,25 +24,48 @@ const Batches = () => {
           <button
             key={batch}
             onClick={() => handleBatchSelect(batch)}
-            className={`px-4 py-2 rounded ${selectedBatch === batch ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded ${
+              selectedBatch === batch ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
+            }`}
           >
             Batch {batch}
           </button>
         ))}
       </div>
-      {/* <div className="grid grid-cols-1 text-center lg:grid-cols-4 gap-4 border-b p-4 "> */}
-      <div className="flex flex-wrap justify-center gap-6 border-b p-4 pb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 pb-12 border-b">
         {batches[selectedBatch].map((member, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md px-14 py-4">
-            <img src={member.imageUrl} alt={member.name} className="w-full h-48 object-contain mb-4 rounded-lg" />
-            <h3 className="text-lg font-semibold mb-2">{member.name}</h3>
-            <p className="text-gray-700 mb-2">Batch: <b>{member.batch}</b></p>
-            <p className="text-gray-700">Marks: <b>{member.marks}</b></p>
+          <div key={index} className="w-full">
+            <ProfileCard
+              image={member.imageUrl}
+              name={member.name}
+              details={[
+                { label: 'Batch:', value: member.batch },
+                { label: 'Marks:', value: member.marks },
+              ]}
+            />
           </div>
         ))}
       </div>
       <Footer />
     </section>
+  );
+};
+
+const ProfileCard = ({ image, name, details }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-md flex  md:flex-row p-4 max-w-sm mx-auto">
+      <img className="w-full h-40 md:h-auto object-cover w-1/3 mr-0 mr-4" src={image} alt={name} />
+      <div className="flex flex-col justify-center bg-slate-900 p-4 w-2/3 text-white">
+        <h2 className="text-xl font-bold">{name}</h2>
+        <ul className="list-none mt-2">
+          {details.map((detail) => (
+            <li key={detail.label} className="mb-1">
+              {detail.label} <b>{detail.value}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
