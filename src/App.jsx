@@ -20,7 +20,7 @@ function App() {
           <Route path="/batches" element={<Batches />} />
           <Route path="/login" element={<SignInForm />} />
           <Route path="/admin" element={<FirebaseImageUpload />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </div>
     </Router>
