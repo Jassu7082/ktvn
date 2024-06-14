@@ -2,30 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import toast, { Toaster } from 'react-hot-toast';
 import { auth, googleProvider } from '../../config/firebase-config';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SignInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 setUser(user);
+                navigate('/admin'); // Redirect if user is logged in
             } else {
                 setUser(null);
             }
         });
         return () => unsubscribe();
-    }, []);
+    }, [navigate]);
 
     const handleSignIn = async () => {
         try {
             // Firebase sign in logic here
             await signInWithEmailAndPassword(auth, email, password);
             toast.success('Sign in successful');
-            <Navigate to="/admin" />;
+            navigate('/admin'); // Redirect after successful sign in
         } catch (error) {
             console.error('Sign-in error:', error.message);
             const errorMessage = error.message.split(': ')[1]; // Extract relevant part of error message
@@ -34,7 +36,8 @@ const SignInForm = () => {
     };
 
     if (user) {
-        return <Navigate to="/admin" />;
+        navigate('/admin');
+        return null; // Prevent rendering the sign-in form if the user is already logged in
     }
 
     return (

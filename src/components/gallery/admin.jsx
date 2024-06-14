@@ -4,7 +4,7 @@ import { imageDb, txtDB } from '../../config/firebase-config';
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../Footer/Footer";
@@ -16,7 +16,7 @@ function FirebaseImageUpload() {
     const [description, setDescription] = useState("");
     const [imgData, setImgData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -42,18 +42,6 @@ function FirebaseImageUpload() {
             toast.error("Error fetching data");
         }
         setIsLoading(false);
-    };
-
-    const handleLogin = async () => {
-        try {
-            const auth = getAuth();
-            await signInWithEmailAndPassword(auth, "user@example.com", "password");
-            setLoggedIn(true);
-            toast.success("Successfully logged in");
-        } catch (error) {
-            console.error("Error signing in:", error);
-            toast.error("Error signing in");
-        }
     };
 
     const handleImageChange = (e) => {
@@ -102,12 +90,8 @@ function FirebaseImageUpload() {
     };
 
     if (!loggedIn) {
-        return (
-            <div>
-                <p>You need to login to upload images</p>
-                <Navigate to="/login" />
-            </div>
-        );
+        navigate('/login');
+        return null;
     }
 
     return (
