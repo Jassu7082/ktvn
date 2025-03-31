@@ -15,5 +15,6 @@ export default defineConfig(({ mode }) => {
     'process.env.measurementId': JSON.stringify(env.measurementId),
     },
     plugins: [react()],
+    
   }
 })
