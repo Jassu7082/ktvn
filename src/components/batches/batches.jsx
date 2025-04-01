@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Medal, Search } from "lucide-react";
 import batch2023_2024 from "./data/batch2023_2024";
+import batch2024 from "./data/batch2024_2025";
 import Footer from "../Footer/Footer";
 import { Card, CardContent } from "./card";
 import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
@@ -8,11 +9,12 @@ import BatchFilter from "./BatchFilter";
 
 const Batches = () => {
   const batches = {
+    "2024-2025": batch2024,
     "2023-2024": batch2023_2024,
   };
 
   const batchKeys = Object.keys(batches);
-  const [selectedBatch, setSelectedBatch] = useState(batchKeys[batchKeys.length - 1]);
+  const [selectedBatch, setSelectedBatch] = useState(batchKeys[0]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredStudents = batches[selectedBatch]
@@ -25,12 +27,12 @@ const Batches = () => {
     <section className="p-4 bg-[#081F37] min-h-screen ">
       <h2 className="text-2xl font-bold mb-4 text-white text-center">Batch {selectedBatch}</h2>
       <BatchFilter batchYears={batchKeys} selectedBatch={selectedBatch} setSelectedBatch={setSelectedBatch} />
-      <div className="relative mb-6 flex items-center border-white w-1/4">
-          <Search className="absolute left-3 text-gray-400 " />
+      <div className="relative mb-6 flex items-center border-white p-1 pt-2  lg:w-1/4">
+        <Search className="absolute left-3 text-gray-400 " />
         <input
           type="text"
           placeholder="Search students..."
-          className="pl-10 pr-4 py-2  rounded-lg bg-slate-800 text-white w-full focus:ring-2 focus:ring-blue-500"
+          className="pl-10 pr-4 py-2 rounded-lg bg-slate-800 text-white w-full focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
