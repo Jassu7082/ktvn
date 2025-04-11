@@ -7,19 +7,28 @@ const PamphletDownload = () => {
 
   useEffect(() => {
     const alreadyOpened = sessionStorage.getItem('pamphletOpened');
-    if (!alreadyOpened) {
-      sessionStorage.setItem('pamphletOpened', 'true');
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    const openPDF = () => {
       if (isMobile) {
         window.location.href = '/Pamphlet.pdf';
       } else {
         const newWindow = window.open('/Pamphlet.pdf', '_blank');
         if (!newWindow) console.warn('Popup blocked');
-        setOpened(true);
       }
-    } else {
-      setOpened(true);
+    };
+
+    if (!alreadyOpened) {
+      sessionStorage.setItem('pamphletOpened', 'true');
+      openPDF();
     }
+
+    // Add delay to show spinner for a second
+    const timeout = setTimeout(() => {
+      setOpened(true);
+    }, 1200); // 1.2s delay
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
