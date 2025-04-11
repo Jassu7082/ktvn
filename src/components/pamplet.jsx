@@ -1,49 +1,50 @@
 import { useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
+import { ClipLoader } from 'react-spinners';
 
 const PamphletDownload = () => {
-  const [downloaded, setDownloaded] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
-    if (!sessionStorage.getItem('pamphletDownloaded')) {
-      const a = document.createElement('a');
-      a.href = '/pamphlet.pdf';
-      a.download = 'Kakatiya Vidyaniketan.pdf';
-      a.click();
-      sessionStorage.setItem('pamphletDownloaded', 'true');
-      setDownloaded(true);
-
-      // Optional: Close after 2s (works only if opened via JS)
-      setTimeout(() => {
-        window.close();
-      }, 2000);
+    const alreadyOpened = sessionStorage.getItem('pamphletOpened');
+    if (!alreadyOpened) {
+      sessionStorage.setItem('pamphletOpened', 'true');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = '/Pamphlet.pdf';
+      } else {
+        const newWindow = window.open('/Pamphlet.pdf', '_blank');
+        if (!newWindow) console.warn('Popup blocked');
+        setOpened(true);
+      }
     } else {
-      setDownloaded(true);
+      setOpened(true);
     }
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#081F37] to-[#0F2A4D] text-white px-4">
-      {downloaded ? (
+      {!opened ? (
         <>
-          <FaCheckCircle className="text-5xl text-green-400 mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Download started!</h1>
-          <p className="text-center max-w-md text-gray-300">
-            If the download didn't start automatically,
-            <a
-              href="/pamphlet.pdf"
-              download
-              className="text-cyan-400 underline ml-1"
-            >
-              click here to download manually.
-            </a>
-          </p>
+          <ClipLoader color="#38bdf8" size={48} />
+          <h1 className="text-xl font-semibold mt-4">Opening your pamphlet...</h1>
+          <p className="text-gray-300 text-sm mt-2">Please wait a moment.</p>
         </>
       ) : (
         <>
-          <div className="loader mb-4"></div>
-          <h1 className="text-xl font-semibold mb-2">Preparing your download...</h1>
-          <p className="text-gray-300 text-sm">Please wait a moment.</p>
+          <FaCheckCircle className="text-5xl text-green-400 mb-4" />
+          <h1 className="text-2xl font-bold mb-2">Pamphlet Opened</h1>
+          <p className="text-center max-w-md text-gray-300">
+            If nothing happened,
+            <a
+              href="/Pamphlet.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400 underline ml-1"
+            >
+              click here to view it manually.
+            </a>
+          </p>
         </>
       )}
     </div>
