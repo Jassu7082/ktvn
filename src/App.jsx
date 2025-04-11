@@ -7,6 +7,7 @@ import Gallery from './components/gallery/gallery';
 import Batches from './components/batches/batches';
 import FirebaseImageUpload from './components/gallery/admin';
 import SignInForm from './components/gallery/login';
+import RedirectDownload from './components/pamplet';
 import { Analytics } from "@vercel/analytics/react";
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/batches" element={<Batches />} />
           <Route path="/login" element={<SignInForm />} />
           <Route path="/admin" element={<FirebaseImageUpload />} />
+          <Route path="/pamphlet" element={<RedirectDownload />} />
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </div>
