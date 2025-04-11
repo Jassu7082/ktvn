@@ -9,29 +9,32 @@ const PamphletDownload = () => {
   useEffect(() => {
     const alreadyOpened = sessionStorage.getItem('pamphletOpened');
 
-    if (!alreadyOpened) {
-      sessionStorage.setItem('pamphletOpened', 'true');
-
+    const openPDF = () => {
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
+      
       if (isMobile) {
-        window.location.href = '/pamphlet.pdf';
+        window.location.href = '/pamphlet.pdf'; // Mobile - redirect
       } else {
-        const newWindow = window.open('/pamphlet.pdf', '_blank');
-        if (!newWindow) console.warn('Popup blocked');
-
-        // 👇 Add slight delay to make it feel natural
+        const newTab = window.open('/pamphlet.pdf', '_blank');
+        if (newTab) {
+          newTab.focus();
+        }
+        // Wait before showing tick mark (simulate loading)
         setTimeout(() => {
           setOpened(true);
           setLoading(false);
-        }, 1500); // 1.5 seconds for smoother transition
+        }, 1200);
       }
+    };
+
+    if (!alreadyOpened) {
+      sessionStorage.setItem('pamphletOpened', 'true');
+      openPDF();
     } else {
-      // Already opened before, show success state after delay
       setTimeout(() => {
         setOpened(true);
         setLoading(false);
-      }, 1000);
+      }, 800);
     }
   }, []);
 
