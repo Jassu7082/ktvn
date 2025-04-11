@@ -3,44 +3,28 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { ClipLoader } from 'react-spinners';
 
 const PamphletDownload = () => {
-  const [loading, setLoading] = useState(true);
   const [opened, setOpened] = useState(false);
 
   useEffect(() => {
     const alreadyOpened = sessionStorage.getItem('pamphletOpened');
-
-    const openPDF = () => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      if (isMobile) {
-        window.location.href = '/pamphlet.pdf'; // Mobile - redirect
-      } else {
-        const newTab = window.open('/pamphlet.pdf', '_blank');
-        if (newTab) {
-          newTab.focus();
-        }
-        // Wait before showing tick mark (simulate loading)
-        setTimeout(() => {
-          setOpened(true);
-          setLoading(false);
-        }, 1200);
-      }
-    };
-
     if (!alreadyOpened) {
       sessionStorage.setItem('pamphletOpened', 'true');
-      openPDF();
-    } else {
-      setTimeout(() => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = '/Pamphlet.pdf';
+      } else {
+        const newWindow = window.open('/Pamphlet.pdf', '_blank');
+        if (!newWindow) console.warn('Popup blocked');
         setOpened(true);
-        setLoading(false);
-      }, 800);
+      }
+    } else {
+      setOpened(true);
     }
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#081F37] to-[#0F2A4D] text-white px-4">
-      {loading ? (
+      {!opened ? (
         <>
           <ClipLoader color="#38bdf8" size={48} />
           <h1 className="text-xl font-semibold mt-4">Opening your pamphlet...</h1>
@@ -53,7 +37,7 @@ const PamphletDownload = () => {
           <p className="text-center max-w-md text-gray-300">
             If nothing happened,
             <a
-              href="/pamphlet.pdf"
+              href="/Pamphlet.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="text-cyan-400 underline ml-1"
