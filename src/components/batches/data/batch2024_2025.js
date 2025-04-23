@@ -96,16 +96,16 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fsnehavarshitha.JPG?alt=media&token=b4ef5320-470f-4e28-bd51-175b7089f3a8", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'P Manusha',
-        marks: "558",
-        hallticketno:"2526115546",
-        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fmanusha.JPG?alt=media&token=b75f35e2-b22b-40be-b23b-8f16592e8477", // Placeholder image URL
-      },{
-        batch: '2024-2025',
         name: 'V Yochana',
         marks: "559",
         hallticketno:"2526113216",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fyochana.JPG?alt=media&token=df416b37-714a-4d45-b586-a6b38eddf700", // Placeholder image URL
+      },{
+        batch: '2024-2025',
+        name: 'P Manusha',
+        marks: "558",
+        hallticketno:"2526115546",
+        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fmanusha.JPG?alt=media&token=b75f35e2-b22b-40be-b23b-8f16592e8477", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'A Chanasya',
