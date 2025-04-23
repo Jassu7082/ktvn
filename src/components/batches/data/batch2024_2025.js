@@ -270,16 +270,17 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fcharanteja.JPG?alt=media&token=d1d38728-d579-4714-b8d5-0079adf352f9", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'K Arundathi',
-        marks: "496",
-        hallticketno:"2526114985",
-        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Farundati.JPG?alt=media&token=74cc5a00-544f-4786-9128-447c96719896", // Placeholder image URL
-      },{
-        batch: '2024-2025',
         name: 'T Simhadri',
         marks: "498",
         hallticketno:"2526113917",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fsimhadri.JPG?alt=media&token=e29b09c7-7a8d-4df2-9058-955b06ce5806", // Placeholder image URL
+      },
+      {
+        batch: '2024-2025',
+        name: 'K Arundathi',
+        marks: "496",
+        hallticketno:"2526114985",
+        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Farundati.JPG?alt=media&token=74cc5a00-544f-4786-9128-447c96719896", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'K Santhosh',
