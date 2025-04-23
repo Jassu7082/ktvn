@@ -60,7 +60,7 @@ const batch2024 = [
         name: 'G Yagynasree',
         marks: "573",
         hallticketno:"2526115502",
-        imageUrl:"", // Placeholder image URL
+        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
       },
       {
         batch: '2024-2025',
@@ -339,7 +339,7 @@ const batch2024 = [
         name: 'S Bhunavana Sree',
         marks: "452",
         hallticketno:"2526112988",
-        imageUrl:"", // Placeholder image URL
+        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'T Manjunath Reddy',
@@ -393,7 +393,7 @@ const batch2024 = [
         name: 'G Vijaya Lakshmi',
         marks: "402",
         hallticketno:"2526113556",
-        imageUrl:"", // Placeholder image URL
+        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'M Ganesh Govind',
