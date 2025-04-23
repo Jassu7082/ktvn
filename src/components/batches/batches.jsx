@@ -47,6 +47,7 @@ const Batches = () => {
             details={[
               { label: "Batch:", value: member.batch },
               { label: "Marks:", value: member.marks },
+              { label: "H.T.No:",value: member.hallticketno},
             ]}
           />
         ))}
@@ -74,7 +75,7 @@ const TopPerformers = ({ students }) => {
           <Card key={student.id} className={`flex border-black hover:border-white  ${medals[index]?.color || ""} shadow-md hover:shadow-lg transition-shadow overflow-hidden`}> 
             <div className="w-1/3">
               <Avatar className="w-full h-full">
-                <AvatarImage src={student.imageUrl} alt={student.name} className="w-full h-full object-cover" />
+                <AvatarImage src={student.imageUrl} alt={student.name} className="w-full h-full object-full" />
                 <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
               </Avatar>
             </div>
@@ -84,6 +85,7 @@ const TopPerformers = ({ students }) => {
               <div className="bg-gray-800 w-[120px] rounded-full px-4 py-1 my-2">
                 <p className="text-lg font-bold text-blue-400">{student.marks} / 600</p>
               </div>
+              <p className="text-sm text-black">H.T.No: {student.hallticketno}</p>
               <span className="text-2xl">{medals[index]?.icon}</span>
             </CardContent>
           </Card>
