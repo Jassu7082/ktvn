@@ -50,14 +50,14 @@ const batch2024 = [
       },
       {
         batch: '2024-2025',
-        name: 'P Akashaya',
+        name: 'P Akshaya',
         marks: "575",
         hallticketno:"2526113566",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fakshaya.JPG?alt=media&token=45ca99ed-eea7-4fc0-9ca6-e1a7df45d911", // Placeholder image URL
       },
       {
         batch: '2024-2025',
-        name: 'G Yagynasree',
+        name: 'G Yagnasree',
         marks: "573",
         hallticketno:"2526115502",
         imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
@@ -162,7 +162,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fvasimzafeer.JPG?alt=media&token=e48d4ef5-6748-4cbc-9d5a-bff3e3f8affe", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'K tejeswar',
+        name: 'K Tejeswar',
         marks: "546",
         hallticketno:"2526112944",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Ftejeswar.JPG?alt=media&token=9c4db42b-2b19-449b-b1ec-3a653179ea63", // Placeholder image URL
@@ -180,7 +180,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fsneha_latha.JPG?alt=media&token=f3d97608-c228-48af-ac9e-35bf4b32e9d3", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'S Rohit Reddy',
+        name: 'S Rohith Reddy',
         marks: "538",
         hallticketno:"2526112912",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Frohitreddy.JPG?alt=media&token=92a7be90-9888-4d5b-bf9a-399f65155184", // Placeholder image URL
@@ -204,7 +204,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fmainuddin.JPG?alt=media&token=c879039d-6f41-4393-a53f-6797309fbaf6", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'M Jayaraj',
+        name: 'N Jayaraj',
         marks: "524",
         hallticketno:"2526113246",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fjayaraj.JPG?alt=media&token=ed644fea-eb7b-4b4a-9f68-bba145f95117", // Placeholder image URL
@@ -337,7 +337,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fakhilapriya.JPG?alt=media&token=de5a4673-ab46-4279-aeb8-60e28e4e89b0", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'S Bhunavana Sree',
+        name: 'S Bhuvana Sree',
         marks: "452",
         hallticketno:"2526112988",
         imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
@@ -355,7 +355,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fpraneeth.JPG?alt=media&token=8f1a4e54-e075-4345-a01b-dee1a8c80f39", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'T Tejas Reddy',
+        name: 'G Thejas Reddy',
         marks: "439",
         hallticketno:"2526114891",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Ftejeshreddy.JPG?alt=media&token=b3772d1a-06c5-4bb6-bd65-584ea44b0f85", // Placeholder image URL
