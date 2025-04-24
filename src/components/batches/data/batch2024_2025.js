@@ -156,7 +156,7 @@ const batch2024 = [
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fpremsuri.JPG?alt=media&token=32895e10-e4fd-4199-8cb6-e760ad728205", // Placeholder image URL
       },{
         batch: '2024-2025',
-        name: 'B Vasimjaffar',
+        name: 'D Vasimjaffar',
         marks: "549",
         hallticketno:"2526113306",
         imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2Fvasimzafeer.JPG?alt=media&token=e48d4ef5-6748-4cbc-9d5a-bff3e3f8affe", // Placeholder image URL
