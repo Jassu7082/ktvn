@@ -60,7 +60,7 @@ const batch2024 = [
         name: 'G Yagnasree',
         marks: "573",
         hallticketno:"2526115502",
-        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
+        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2FG.yagnasree.jpeg?alt=media&token=cb6b73e2-9d12-41f6-858e-5c076576b4bb", // Placeholder image URL
       },
       {
         batch: '2024-2025',
@@ -340,7 +340,7 @@ const batch2024 = [
         name: 'S Bhuvana Sree',
         marks: "452",
         hallticketno:"2526112988",
-        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
+        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2FS.Bhuvana%20sree.jpeg?alt=media&token=19dfce17-c91c-4af2-ae33-db2d725e5afd", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'T Manjunath Reddy',
@@ -394,7 +394,7 @@ const batch2024 = [
         name: 'G Vijaya Lakshmi',
         marks: "402",
         hallticketno:"2526113556",
-        imageUrl:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", // Placeholder image URL
+        imageUrl:"https://firebasestorage.googleapis.com/v0/b/kakatiya-98486.appspot.com/o/batches%2F2024-2025%2FG.Vijayalakshmi.jpeg?alt=media&token=0ff36c40-7de6-4bc8-ac86-875a8410b5e0", // Placeholder image URL
       },{
         batch: '2024-2025',
         name: 'M Ganesh Govind',
