@@ -3,7 +3,7 @@ import jaya from '../../assets/team/jaya.jpg';
 import ramireddy from '../../assets/team/ramireddy.jpg';
 import suryaprakash from '../../assets/team/suri.jpeg';
 import padma from '../../assets/team/padma.jpg';
-import rajasekhar from '../../assets/team/rajasekhar.jpg';
+import rajasekhar from '../../assets/team/raj.jpeg';
 import nirmala from '../../assets/team/nirmala.jpg';
 const members = [
     {
@@ -33,13 +33,13 @@ const members = [
     {
       position: 'Director',
       name: 'S Rajasekhar Reddy',
-      description: "MCA",
+      description: "At Kakatiya Vidyaniketan, we inspire a passion for learning and values for life. Our vision is to build strong foundations for a brighter tomorrow.",
       imageUrl: rajasekhar, // Placeholder image URL
     },
     {
       position: 'Empowering Leader',
       name: 'S Jayachandra Reddy',
-      description: "M.A M.Ed Teacher",
+      description: "Kakatiya Vidyaniketan nurtures future leaders through excellence in education and moral values. Empowering every student to lead with confidence, and integrity.",
       imageUrl: jaya, // Placeholder image URL
     }
   ];
