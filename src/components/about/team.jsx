@@ -35,12 +35,6 @@ const members = [
       name: 'S Rajasekhar Reddy',
       description: "At Kakatiya Vidyaniketan, we inspire a passion for learning and values for life. Our vision is to build strong foundations for a brighter tomorrow.",
       imageUrl: rajasekhar, // Placeholder image URL
-    },
-    {
-      position: 'Empowering Leader',
-      name: 'S Jayachandra Reddy',
-      description: "Kakatiya Vidyaniketan nurtures future leaders through excellence in education and moral values. Empowering every student to lead with confidence, and integrity.",
-      imageUrl: jaya, // Placeholder image URL
     }
   ];
   
