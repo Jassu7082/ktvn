@@ -39,7 +39,7 @@ const ContactPage = () => {
               <h3 className="text-lg font-semibold mb-2">Our Address</h3>
               <p>NS.Gate Road, Dharmavaram, Anantapur (Dt), Andhra Pradesh</p>
               <p>Email: kakatiyadmm@gmail.com</p>
-              <p>Phone: 9030944717, 9030088545</p>
+              <p>Phone: 9030088545</p>
               <p>Website: www.kakatiyavidyaniketan.com</p>
             </div>
           </div>
