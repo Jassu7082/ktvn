@@ -1,5 +1,4 @@
 import React from 'react';
-import jaya from '../../assets/team/jaya.jpg';
 import ramireddy from '../../assets/team/ramireddy.jpg';
 import suryaprakash from '../../assets/team/suri.jpeg';
 import padma from '../../assets/team/padma.jpg';
