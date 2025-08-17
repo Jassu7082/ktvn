@@ -4,7 +4,7 @@ import ramireddy from '../../assets/team/ramireddy.jpg';
 import suryaprakash from '../../assets/team/suri.jpeg';
 import padma from '../../assets/team/padma.jpg';
 import rajasekhar from '../../assets/team/raj.jpeg';
-import nirmala from '../../assets/team/nirmala.jpg';
+import nirmala from '../../assets/team/nirmala.jpeg';
 const members = [
     {
       position: 'Founder',
@@ -13,10 +13,10 @@ const members = [
       imageUrl:ramireddy, // Placeholder image URL
     },
     {
-      position: 'Principal',
-      name: 'S Nirmala Jayachandra Reddy',
-      description: "To develop within students an attitude of individual responsibility based upon the values of honesty, respect, self-control, equality, care, and concern for others.",
-      imageUrl: nirmala, // Placeholder image URL
+  position: 'Correspondent & Principal',
+  name: 'Smt J Nirmala Devi',
+  description: "Dedicated to nurturing students with values of integrity, respect, self-discipline, equality, empathy, and responsibility, empowering them to grow into confident and compassionate individuals.",
+  imageUrl: nirmala, // Placeholder image URL
     },
     {
       position: 'Director',
