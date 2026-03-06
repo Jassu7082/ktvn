@@ -24,6 +24,9 @@ import {
     ExternalLink
 } from "lucide-react";
 
+const RESERVED_SLUGS = ['admin', 'gallery', 'about', 'batches', 'login', 'home', 'contact', 'legal', 'privacy'];
+const SLUG_REGEX = /^[a-zA-Z0-9-_]+$/;
+
 function FirebaseImageUpload() {
     const [images, setImages] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -152,17 +155,30 @@ function FirebaseImageUpload() {
     };
 
     const handleRedirectCreate = async () => {
-        if (!redirectSlug || !redirectFile) {
-            toast.warning("Please provide a slug and select a file");
+        const cleanSlug = redirectSlug.trim().toLowerCase();
+
+        // 1. Basic validation
+        if (!cleanSlug || !redirectFile) {
+            toast.error("Please provide both a slug and a file");
             return;
         }
 
-        // Clean slug: lowercase and no leading slash
-        const cleanSlug = redirectSlug.toLowerCase().replace(/^\/+/, '');
+        // 2. Regex check (URL safe)
+        if (!SLUG_REGEX.test(cleanSlug)) {
+            toast.error("Slug can only contain letters, numbers, hyphens, and underscores");
+            return;
+        }
 
-        // Check if slug already exists
-        if (redirects.some(r => r.slug === cleanSlug)) {
-            toast.error(`The slug /${cleanSlug} is already in use.`);
+        // 3. Reserved route check
+        if (RESERVED_SLUGS.includes(cleanSlug)) {
+            toast.error(`'/${cleanSlug}' is a reserved institutional route`);
+            return;
+        }
+
+        // 4. Duplicate check
+        const isDuplicate = redirects.some(r => r.slug === cleanSlug);
+        if (isDuplicate) {
+            toast.error(`A redirect for '/${cleanSlug}' already exists`);
             return;
         }
 
@@ -423,11 +439,13 @@ function FirebaseImageUpload() {
                                         <label className="text-[10px] font-black uppercase tracking-[0.3em] text-accent ml-1">Asset Library (Multiple Allowed)</label>
                                         <div className="relative group/upload">
                                             <input
+                                                key={images.length === 0 ? 'reset' : 'active'}
                                                 type="file"
                                                 onChange={handleImageChange}
                                                 accept="image/*"
                                                 multiple
-                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                disabled={isUploading}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 disabled:cursor-not-allowed"
                                             />
                                             <div className="border-2 border-dashed border-white/10 group-hover/upload:border-accent/40 group-hover/upload:bg-accent/[0.02] rounded-3xl p-12 transition-all flex flex-col items-center gap-4 text-center">
                                                 <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-accent group-hover/upload:scale-110 transition-transform duration-500">
@@ -639,9 +657,11 @@ function FirebaseImageUpload() {
                                             <label className="text-[10px] font-black uppercase tracking-widest text-accent ml-1">Target Document</label>
                                             <div className="relative group/red">
                                                 <input
+                                                    key={redirectFile ? 'selected' : 'empty'}
                                                     type="file"
                                                     onChange={(e) => setRedirectFile(e.target.files[0])}
-                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                    disabled={isUploading}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 disabled:cursor-not-allowed"
                                                 />
                                                 <div className={`border-2 border-dashed rounded-2xl p-6 transition-all flex flex-col items-center gap-3 text-center ${redirectFile ? 'border-accent/40 bg-accent/5' : 'border-white/10 group-hover/red:border-white/20'}`}>
                                                     {redirectFile ? (

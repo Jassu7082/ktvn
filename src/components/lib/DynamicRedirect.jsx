@@ -49,10 +49,18 @@ const DynamicRedirect = () => {
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        window.URL.revokeObjectURL(downloadUrl);
+
+                        // Small delay to ensure download starts before closing/redirecting
+                        setTimeout(() => {
+                            window.URL.revokeObjectURL(downloadUrl);
+                            // If it's a PDF, we might want to stay in the PDF viewer
+                            // But since the user wants to "close the tab", we attempt that
+                            window.close();
+                            // Fallback: If window.close() is blocked, redirect to home or stay quiet
+                        }, 500);
                     } catch (fetchErr) {
                         console.warn("Masked fetch failed (likely CORS). Falling back to direct download.", fetchErr);
-                        window.location.href = fileUrl;
+                        window.location.replace(fileUrl);
                     }
 
                     // Self-Destruct Cleanup: If limit reached, purge everything
@@ -67,10 +75,7 @@ const DynamicRedirect = () => {
                         }
                     }
 
-                    // Success UI transition
-                    setTimeout(() => {
-                        setStatus('success');
-                    }, 1000);
+                    // No longer needing success UI as we are closing or redirecting
                 } else {
                     setStatus('failed');
                     setErrorMsg(`The link /${slug} could not be found.`);
@@ -92,29 +97,9 @@ const DynamicRedirect = () => {
                 <div className="relative z-10 flex flex-col items-center gap-6">
                     <ClipLoader color="#EAB308" size={50} />
                     <div className="text-center">
-                        <h1 className="text-white text-2xl font-display font-black tracking-tight mb-2">Secure Download</h1>
-                        <p className="text-text-muted text-sm uppercase tracking-widest font-bold opacity-60">Preparing institutional document...</p>
+                        <h1 className="text-white text-2xl font-display font-black tracking-tight mb-2">Redirecting</h1>
+                        <p className="text-text-muted text-sm uppercase tracking-widest font-bold opacity-60">Opening secure document...</p>
                     </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (status === 'success') {
-        return (
-            <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6 text-center">
-                <div className="glass p-12 rounded-[2.5rem] border border-white/5 max-w-md w-full relative overflow-hidden group">
-                    <Download className="w-16 h-16 text-accent mx-auto mb-8 animate-bounce" />
-                    <h2 className="text-2xl font-display font-black text-white mb-4">Transfer Complete</h2>
-                    <p className="text-text-secondary text-sm leading-relaxed mb-10 opacity-70">
-                        Your secure document has been sent to your device. You may close this tab or return to the main portal.
-                    </p>
-                    <button
-                        onClick={() => navigate('/')}
-                        className="w-full py-4 bg-accent text-primary rounded-2xl font-black text-xs uppercase tracking-widest hover:shadow-glow-accent transition-all flex items-center justify-center gap-3"
-                    >
-                        Return Home
-                    </button>
                 </div>
             </div>
         );
