@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { ref as storageRef, getDownloadURL } from "firebase/storage";
 import { txtDB, imageDb } from '../../config/firebase-config';
@@ -50,8 +50,8 @@ function Home() {
           return dateB - dateA;
         });
 
-        // Slice top 3 latest
-        setRecentGallery(allData.slice(0, 3));
+        // Slice top 10 latest
+        setRecentGallery(allData.slice(0, 10));
       } catch (e) {
         console.error("Error fetching recent moments:", e);
       }
@@ -207,6 +207,8 @@ function Programs({ image, title, content }) {
 
 function HomeGalleryCard({ item }) {
   const [url, setUrl] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef(null);
   const navigate = useNavigate();
   const rawUrl = item.images?.[0] || item.imgUrl;
 
@@ -223,6 +225,25 @@ function HomeGalleryCard({ item }) {
     }
   }, [rawUrl]);
 
+  // Scroll Reveal Logic
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const handleCardClick = () => {
     // Navigate to gallery and pass the specific post ID to auto-open it
     navigate('/gallery', { state: { openPostId: item.id } });
@@ -230,8 +251,9 @@ function HomeGalleryCard({ item }) {
 
   return (
     <div
+      ref={cardRef}
       onClick={handleCardClick}
-      className="relative aspect-[4/3] rounded-3xl overflow-hidden group shadow-card hover:shadow-hover transition-all duration-500 bg-primary-dark cursor-pointer border border-border-light"
+      className={`reveal-on-scroll ${isVisible ? 'active' : ''} relative aspect-[4/3] rounded-3xl overflow-hidden group shadow-card hover:shadow-hover transition-all duration-500 bg-primary-dark cursor-pointer border border-border-light`}
     >
       <div className="absolute inset-0 z-0">
         <LazyImage
