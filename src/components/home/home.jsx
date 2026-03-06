@@ -39,10 +39,22 @@ function Home() {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const q = query(collection(txtDB, "txtData"), limit(3));
-        const snap = await getDocs(q);
-        setRecentGallery(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      } catch (e) { console.error(e); }
+        const txtDataCollection = collection(txtDB, "txtData");
+        const snapshot = await getDocs(txtDataCollection);
+        const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Safe Client-side sort: newest first
+        allData.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
+
+        // Slice top 3 latest
+        setRecentGallery(allData.slice(0, 3));
+      } catch (e) {
+        console.error("Error fetching recent moments:", e);
+      }
     };
     fetchRecent();
   }, []);
@@ -195,28 +207,32 @@ function Programs({ image, title, content }) {
 
 function HomeGalleryCard({ item }) {
   const [url, setUrl] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+  const rawUrl = item.images?.[0] || item.imgUrl;
 
   useEffect(() => {
-    if (item.imgUrl) {
-      const gsPath = item.imgUrl.replace(/^gs:\/\/[^/]+\/(.+)$/, '$1');
-      getDownloadURL(storageRef(imageDb, gsPath))
-        .then(setUrl)
-        .catch(e => console.error(e));
+    if (rawUrl) {
+      if (rawUrl.startsWith('gs://')) {
+        const gsPath = rawUrl.replace(/^gs:\/\/[^/]+\/(.+)$/, '$1');
+        getDownloadURL(storageRef(imageDb, gsPath))
+          .then(setUrl)
+          .catch(e => console.error(e));
+      } else {
+        setUrl(rawUrl);
+      }
     }
-  }, [item.imgUrl]);
+  }, [rawUrl]);
 
   return (
     <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group shadow-card hover:shadow-hover transition-all duration-500 bg-primary-dark cursor-pointer border border-border-light">
-      {(!url || !loaded) && <div className="absolute inset-0 skeleton-shimmer z-0" />}
-      {url && (
-        <img
+      <div className="absolute inset-0 z-0">
+        <LazyImage
           src={url}
           alt={item.title}
-          onLoad={() => setLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+          className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+          wrapperClass="w-full h-full"
         />
-      )}
+      </div>
+
       <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent opacity-90 transition-opacity z-10" />
       <div className="absolute inset-0 p-6 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-20">
         <h4 className="text-xl font-display font-black text-white mb-2 drop-shadow-lg">{item.title}</h4>
