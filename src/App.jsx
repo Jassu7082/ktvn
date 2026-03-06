@@ -1,29 +1,45 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar/navbar';
-import Home from './components/home/home';
-import About from './components/about/about';
-import Gallery from './components/gallery/gallery';
-import Batches from './components/batches/batches';
-import FirebaseImageUpload from './components/gallery/admin';
-import SignInForm from './components/gallery/login';
-import RedirectDownload from './components/pamplet';
+import ScrollToTop from './components/lib/ScrollToTop';
+import { PageSkeleton } from './components/lib/Skeleton';
 import { Analytics } from "@vercel/analytics/react";
+import AnalyticsTracker from './components/lib/AnalyticsTracker';
+
+// ── Route-level code splitting ────────────────────────────────────────────────
+// Each page is an independent JS chunk — browser only downloads the code for
+// the route the user actually visits.
+const Home = lazy(() => import('./components/home/home'));
+const About = lazy(() => import('./components/about/about'));
+const Gallery = lazy(() => import('./components/gallery/gallery'));
+const Batches = lazy(() => import('./components/batches/batches'));
+const AdminUpload = lazy(() => import('./components/gallery/admin'));
+const SignInForm = lazy(() => import('./components/gallery/login'));
+const RedirectDownload = lazy(() => import('./components/pamplet'));
+
 function App() {
   return (
     <Router>
       <div className="App">
+        <ScrollToTop />
+        <AnalyticsTracker />
+        {/* Navbar is always visible — not lazy-loaded */}
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/batches" element={<Batches />} />
-          <Route path="/login" element={<SignInForm />} />
-          <Route path="/admin" element={<FirebaseImageUpload />} />
-          <Route path="/pamphlet" element={<RedirectDownload />} />
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
-        </Routes>
+
+        {/* PageSkeleton shown while a lazy chunk is being downloaded */}
+        <Suspense fallback={<PageSkeleton />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/batches" element={<Batches />} />
+            <Route path="/login" element={<SignInForm />} />
+            <Route path="/admin" element={<AdminUpload />} />
+            <Route path="/pamphlet" element={<RedirectDownload />} />
+          </Routes>
+        </Suspense>
+
+        <Analytics />
       </div>
     </Router>
   );
