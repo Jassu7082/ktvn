@@ -18,5 +18,5 @@ export const imageDb = getStorage(app);
 export const txtDB = getFirestore(app);
 
 // Export auth and GoogleAuthProvider
-export const auth = getAuth();
+export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
