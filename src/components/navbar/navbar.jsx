@@ -21,8 +21,19 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+
+        // Scroll lock logic for sidebar
+        if (showSidebar) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            document.body.style.overflow = 'unset'; // Cleanup
+        };
+    }, [showSidebar]);
 
     const linkClass = (to) =>
         `flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300 ${location.pathname === to
@@ -37,9 +48,16 @@ const Navbar = () => {
             <div className="flex items-center gap-4">
                 <img className="h-10 w-10 sm:h-12 sm:w-12 object-contain" src={logo} alt="KTVN Logo" />
                 <div className="flex flex-col">
-                    <p className="text-lg sm:text-xl font-bold text-text-primary font-display tracking-[0.05em] leading-none">
-                        KAKATIYA
-                    </p>
+                    <div className="flex items-center gap-3">
+                        <p className="text-lg sm:text-xl font-bold text-text-primary font-display tracking-[0.05em] leading-none">
+                            KAKATIYA
+                        </p>
+                        {[5, 6].includes(new Date().getMonth()) && (
+                            <span className="hidden sm:inline-block text-[10px] font-black text-accent uppercase tracking-[0.2em] px-3 py-1 bg-accent/10 rounded-full border border-accent/20 animate-pulse">
+                                Admissions Live
+                            </span>
+                        )}
+                    </div>
                     <p className="text-[10px] sm:text-xs font-black text-accent tracking-[0.3em] uppercase mt-1">
                         Vidyaniketan
                     </p>
@@ -121,9 +139,9 @@ const Navbar = () => {
                         ))}
                     </nav>
 
-                    <div className="mt-auto p-12 text-center border-t border-white/5 relative z-10">
+                    <div className="mt-auto p-12 pb-16 px-10 text-center border-t border-white/5 relative z-10">
                         <img className="h-8 w-auto mx-auto mb-6 opacity-40 grayscale" src={logo} alt="Logo" />
-                        <p className="text-[10px] uppercase font-black tracking-[0.5em] text-text-muted mb-2 opacity-60">Dharmavaram • Andhra Pradesh</p>
+                        <p className="text-[10px] uppercase font-black tracking-[0.5em] text-text-muted mb-2 opacity-60 px-4">Dharmavaram • Andhra Pradesh</p>
                         <p className="text-[8px] uppercase font-bold text-accent tracking-[0.2em] opacity-40">Kakatiya Vidyaniketan © 2026</p>
                     </div>
                 </div>

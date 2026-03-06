@@ -125,9 +125,11 @@ function Footer() {
                                 </div>
                             </div>
                             <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
-                                <span className="text-[10px] font-black text-accent uppercase tracking-[0.2em] px-4 py-1.5 bg-accent/10 rounded-full border border-accent/20">
-                                    Admissions Live
-                                </span>
+                                {[5, 6].includes(new Date().getMonth()) && (
+                                    <span className="text-[10px] font-black text-accent uppercase tracking-[0.2em] px-4 py-1.5 bg-accent/10 rounded-full border border-accent/20">
+                                        Admissions Live
+                                    </span>
+                                )}
                                 <FontAwesomeIcon icon={faShieldAlt} className="text-white/20 text-xs" />
                             </div>
                         </div>

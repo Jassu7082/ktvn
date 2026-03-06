@@ -10,7 +10,7 @@ import cont3img3 from "../../assets/cont3img3.png";
 import Footer from "../Footer/Footer";
 import LazyImage from "../lib/LazyImage";
 import { Trophy, Images, ArrowRight, Maximize2, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function FAQItem({ question, answer }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -207,6 +207,7 @@ function Programs({ image, title, content }) {
 
 function HomeGalleryCard({ item }) {
   const [url, setUrl] = useState(null);
+  const navigate = useNavigate();
   const rawUrl = item.images?.[0] || item.imgUrl;
 
   useEffect(() => {
@@ -222,8 +223,16 @@ function HomeGalleryCard({ item }) {
     }
   }, [rawUrl]);
 
+  const handleCardClick = () => {
+    // Navigate to gallery and pass the specific post ID to auto-open it
+    navigate('/gallery', { state: { openPostId: item.id } });
+  };
+
   return (
-    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group shadow-card hover:shadow-hover transition-all duration-500 bg-primary-dark cursor-pointer border border-border-light">
+    <div
+      onClick={handleCardClick}
+      className="relative aspect-[4/3] rounded-3xl overflow-hidden group shadow-card hover:shadow-hover transition-all duration-500 bg-primary-dark cursor-pointer border border-border-light"
+    >
       <div className="absolute inset-0 z-0">
         <LazyImage
           src={url}

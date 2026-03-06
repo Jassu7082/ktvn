@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { imageDb, txtDB } from '../../config/firebase-config';
 import { getDownloadURL, ref as storageRef } from "firebase/storage";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { useLocation } from "react-router-dom";
 import { X, Maximize2, Calendar, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import Footer from "../Footer/Footer";
 import { SkeletonCard } from "../lib/Skeleton";
@@ -128,9 +129,8 @@ const GalleryModal = ({ isOpen, onClose, data }) => {
 };
 
 // ── GalleryCard ───────────────────────────────────────────────────────────────
-const GalleryCard = ({ data }) => {
+const GalleryCard = ({ data, onOpen }) => {
     const [imgLoaded, setImgLoaded] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Support both new array structure and legacy string structure
@@ -147,72 +147,64 @@ const GalleryCard = ({ data }) => {
     }, [images.length]);
 
     return (
-        <>
-            <div
-                onClick={() => setIsModalOpen(true)}
-                className="group relative flex flex-col h-full rounded-[2.5rem] bg-surface/30 overflow-hidden border border-white/5 hover:border-accent/40 shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2"
-            >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-primary-dark">
-                    <img
-                        src={previewUrl}
-                        alt={data.title}
-                        loading="lazy"
-                        onLoad={() => setImgLoaded(true)}
-                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    />
+        <div
+            onClick={() => onOpen(data)}
+            className="group relative flex flex-col h-full rounded-[2.5rem] bg-surface/30 overflow-hidden border border-white/5 hover:border-accent/40 shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2"
+        >
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-primary-dark">
+                <img
+                    src={previewUrl}
+                    alt={data.title}
+                    loading="lazy"
+                    onLoad={() => setImgLoaded(true)}
+                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                />
 
-                    {/* Slide indicators (Visual only, no arrows) */}
+                {/* Slide indicators (Visual only, no arrows) */}
+                {images.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                        {images.map((_, idx) => (
+                            <div
+                                key={idx}
+                                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-4 bg-accent' : 'w-1 bg-white/40'}`}
+                            />
+                        ))}
+                    </div>
+                )}
+
+                {/* Multi-image badge */}
+                <div className="absolute top-4 left-4 z-10 flex gap-2">
                     {images.length > 1 && (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                            {images.map((_, idx) => (
-                                <div
-                                    key={idx}
-                                    className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-4 bg-accent' : 'w-1 bg-white/40'}`}
-                                />
-                            ))}
+                        <div className="px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-[10px] font-black tracking-widest uppercase text-white scale-90 group-hover:scale-100 transition-transform">
+                            {images.length} Photos
                         </div>
                     )}
-
-                    {/* Multi-image badge */}
-                    <div className="absolute top-4 left-4 z-10 flex gap-2">
-                        {images.length > 1 && (
-                            <div className="px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-[10px] font-black tracking-widest uppercase text-white scale-90 group-hover:scale-100 transition-transform">
-                                {images.length} Photos
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#050B14] to-transparent opacity-60" />
-
-                    <div className="absolute bottom-4 right-4 p-3 bg-accent text-primary rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-glow-sm">
-                        <Maximize2 className="w-4 h-4" />
-                    </div>
                 </div>
 
-                <div className="p-7 flex flex-col flex-grow relative">
-                    <h3 className="text-lg font-display font-black text-white mb-3 line-clamp-1 group-hover:text-accent transition-colors tracking-tight">
-                        {data.title || "Untitled Capture"}
-                    </h3>
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#050B14] to-transparent opacity-60" />
 
-                    <p className="text-xs text-text-muted font-medium line-clamp-2 opacity-60 leading-relaxed mb-6">
-                        {data.description || "Institutional achievement and growth recorded."}
-                    </p>
-
-                    <div className="mt-auto flex items-center justify-between">
-                        <div className="flex items-center gap-2 group-hover:gap-4 transition-all duration-500">
-                            <span className="text-[10px] font-black text-accent uppercase tracking-[0.2em]">Explore Gallery</span>
-                            <div className="h-px w-6 bg-accent/40 group-hover:w-10 group-hover:bg-accent transition-all duration-500" />
-                        </div>
-                    </div>
+                <div className="absolute bottom-4 right-4 p-3 bg-accent text-primary rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-glow-sm">
+                    <Maximize2 className="w-4 h-4" />
                 </div>
             </div>
 
-            <GalleryModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                data={data}
-            />
-        </>
+            <div className="p-7 flex flex-col flex-grow relative">
+                <h3 className="text-lg font-display font-black text-white mb-3 line-clamp-1 group-hover:text-accent transition-colors tracking-tight">
+                    {data.title || "Untitled Capture"}
+                </h3>
+
+                <p className="text-xs text-text-muted font-medium line-clamp-2 opacity-60 leading-relaxed mb-6">
+                    {data.description || "Institutional achievement and growth recorded."}
+                </p>
+
+                <div className="mt-auto flex items-center justify-between">
+                    <div className="flex items-center gap-2 group-hover:gap-4 transition-all duration-500">
+                        <span className="text-[10px] font-black text-accent uppercase tracking-[0.2em]">Explore Gallery</span>
+                        <div className="h-px w-6 bg-accent/40 group-hover:w-10 group-hover:bg-accent transition-all duration-500" />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -221,6 +213,10 @@ const Gallery = () => {
     const [imgData, setImgData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Modal state promoted to page level
+    const [selectedPost, setSelectedPost] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
         const fetchMetadata = async () => {
@@ -237,7 +233,7 @@ const Gallery = () => {
                     };
                 });
 
-                // Client-side sort: newest first, items without dates go to the bottom
+                // Client-side sort: newest first
                 metadata.sort((a, b) => {
                     const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                     const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
@@ -245,6 +241,13 @@ const Gallery = () => {
                 });
 
                 setImgData(metadata);
+
+                // Deep Linking: Auto-open post if requested via state
+                const openPostId = location.state?.openPostId;
+                if (openPostId) {
+                    const targetPost = metadata.find(p => p.id === openPostId);
+                    if (targetPost) setSelectedPost(targetPost);
+                }
             } catch (err) {
                 console.error("Error fetching gallery metadata:", err);
                 setError("Failed to load gallery. Please try again.");
@@ -254,7 +257,7 @@ const Gallery = () => {
         };
 
         fetchMetadata();
-    }, []);
+    }, [location.state?.openPostId]);
 
     if (isLoading) {
         return (
@@ -310,10 +313,20 @@ const Gallery = () => {
             <div className="max-w-7xl mx-auto px-6 py-12">
                 <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-20">
                     {imgData.map((data) => (
-                        <GalleryCard key={data.id} data={data} />
+                        <GalleryCard
+                            key={data.id}
+                            data={data}
+                            onOpen={setSelectedPost}
+                        />
                     ))}
                 </div>
             </div>
+
+            <GalleryModal
+                isOpen={!!selectedPost}
+                onClose={() => setSelectedPost(null)}
+                data={selectedPost}
+            />
 
             <Footer />
         </div>

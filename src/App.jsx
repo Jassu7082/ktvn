@@ -15,7 +15,7 @@ const Gallery = lazy(() => import('./components/gallery/gallery'));
 const Batches = lazy(() => import('./components/batches/batches'));
 const AdminUpload = lazy(() => import('./components/gallery/admin'));
 const SignInForm = lazy(() => import('./components/gallery/login'));
-const RedirectDownload = lazy(() => import('./components/pamplet'));
+const DynamicRedirect = lazy(() => import('./components/lib/DynamicRedirect'));
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
             <Route path="/batches" element={<Batches />} />
             <Route path="/login" element={<SignInForm />} />
             <Route path="/admin" element={<AdminUpload />} />
-            <Route path="/pamphlet" element={<RedirectDownload />} />
+            <Route path="/:slug" element={<DynamicRedirect />} />
           </Routes>
         </Suspense>
 

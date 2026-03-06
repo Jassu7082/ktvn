@@ -18,7 +18,10 @@ import {
     MousePointer2,
     CheckCircle2,
     XCircle,
-    Loader2
+    Loader2,
+    Link2,
+    Copy,
+    ExternalLink
 } from "lucide-react";
 
 function FirebaseImageUpload() {
@@ -28,9 +31,15 @@ function FirebaseImageUpload() {
     const [description, setDescription] = useState("");
     const [imgData, setImgData] = useState([]);
     const [metricsData, setMetricsData] = useState([]);
-    const [activeTab, setActiveTab] = useState('manage'); // 'manage' | 'analytics' | 'upload'
+    const [redirects, setRedirects] = useState([]);
+    const [activeTab, setActiveTab] = useState('manage'); // 'manage' | 'analytics' | 'upload' | 'redirects'
     const [isUploading, setIsUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Redirect form state
+    const [redirectSlug, setRedirectSlug] = useState("");
+    const [redirectFile, setRedirectFile] = useState(null);
+    const [redirectLimit, setRedirectLimit] = useState(0); // 0 = unlimited
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,6 +48,7 @@ function FirebaseImageUpload() {
                 setLoggedIn(true);
                 fetchData();
                 fetchMetrics();
+                fetchRedirects();
             } else {
                 setLoggedIn(false);
                 navigate('/login');
@@ -85,6 +95,17 @@ function FirebaseImageUpload() {
         }
     };
 
+    const fetchRedirects = async () => {
+        try {
+            const redirectsCollection = collection(txtDB, "redirects");
+            const snapshot = await getDocs(redirectsCollection);
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setRedirects(data);
+        } catch (error) {
+            console.error("Error fetching redirects:", error);
+        }
+    };
+
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         setImages([...images, ...files]);
@@ -124,20 +145,69 @@ function FirebaseImageUpload() {
             setDescription("");
             setActiveTab('manage');
         } catch (error) {
-            console.error("Critical Upload Error Payload:", {
-                code: error.code,
-                message: error.message,
-                status: error.status,
-                full: error
-            });
-
-            if (error.code === 'storage/unauthorized') {
-                toast.error("Firebase Storage Permission Denied. Please update your STORAGE rules.");
-            } else {
-                toast.error("Upload failed: " + error.message);
-            }
+            console.error("Upload Error:", error);
+            toast.error("Upload failed: " + error.message);
         }
         setIsUploading(false);
+    };
+
+    const handleRedirectCreate = async () => {
+        if (!redirectSlug || !redirectFile) {
+            toast.warning("Please provide a slug and select a file");
+            return;
+        }
+
+        // Clean slug: lowercase and no leading slash
+        const cleanSlug = redirectSlug.toLowerCase().replace(/^\/+/, '');
+
+        // Check if slug already exists
+        if (redirects.some(r => r.slug === cleanSlug)) {
+            toast.error(`The slug /${cleanSlug} is already in use.`);
+            return;
+        }
+
+        setIsUploading(true);
+        try {
+            const fileRef = ref(imageDb, `redirects/${uuidv4()}_${redirectFile.name}`);
+            const snapshot = await uploadBytes(fileRef, redirectFile);
+            const url = await getDownloadURL(snapshot.ref);
+
+            await addDoc(collection(txtDB, 'redirects'), {
+                slug: cleanSlug,
+                fileUrl: url,
+                fileName: redirectFile.name,
+                clicks: 0,
+                limit: parseInt(redirectLimit) || 0,
+                createdAt: new Date().toISOString()
+            });
+
+            fetchRedirects();
+            toast.success(`Redirect link /${cleanSlug} active!`);
+            setRedirectSlug("");
+            setRedirectFile(null);
+            setRedirectLimit(0);
+        } catch (error) {
+            console.error("Redirect Create Error:", error);
+            toast.error("Failed to create redirect link");
+        }
+        setIsUploading(false);
+    };
+
+    const handleDeleteRedirect = async (id, fileUrl) => {
+        if (!window.confirm("Permanently delete this redirect link?")) return;
+
+        try {
+            await deleteDoc(doc(txtDB, 'redirects', id));
+            // Try to delete the file from storage if it exists
+            const fileRef = ref(imageDb, fileUrl);
+            await deleteObject(fileRef).catch(err => console.warn("File delete failed:", err));
+
+            fetchRedirects();
+            toast.success("Redirect link removed");
+        } catch (error) {
+            console.error("Delete Redirect Error:", error);
+            toast.error("Failed to delete redirect");
+        }
     };
 
     const handleDelete = async (postId, imageUrls) => {
@@ -251,6 +321,7 @@ function FirebaseImageUpload() {
                     {[
                         { id: 'manage', label: 'Monitor', icon: LayoutDashboard },
                         { id: 'upload', label: 'Create', icon: ImagePlus },
+                        { id: 'redirects', label: 'Redirects', icon: Link2 },
                         { id: 'analytics', label: 'Stats', icon: BarChart3 }
                     ].map(tab => (
                         <button
@@ -525,6 +596,147 @@ function FirebaseImageUpload() {
                                             ))}
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'redirects' && (
+                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+                                <div>
+                                    <h2 className="text-3xl font-display font-black tracking-tight mb-2">Redirect Hub</h2>
+                                    <p className="text-text-muted text-sm font-medium">Universal link manager for downloads and sub-pages</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                                {/* Creator Card */}
+                                <div className="lg:col-span-1 bg-white/[0.02] border border-white/5 p-8 rounded-[2.5rem] backdrop-blur-md sticky top-24">
+                                    <h3 className="text-lg font-bold mb-8 flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center text-accent">
+                                            <Link2 size={16} />
+                                        </div>
+                                        New Link
+                                    </h3>
+
+                                    <div className="space-y-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-accent ml-1">URL Slug</label>
+                                            <div className="relative">
+                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-bold text-sm">/</span>
+                                                <input
+                                                    type="text"
+                                                    value={redirectSlug}
+                                                    onChange={(e) => setRedirectSlug(e.target.value)}
+                                                    placeholder="e.g. pamphlet"
+                                                    className="w-full bg-white/[0.04] border border-white/10 rounded-2xl pl-8 pr-4 py-4 outline-none focus:border-accent transition-all font-bold text-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-accent ml-1">Target Document</label>
+                                            <div className="relative group/red">
+                                                <input
+                                                    type="file"
+                                                    onChange={(e) => setRedirectFile(e.target.files[0])}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                />
+                                                <div className={`border-2 border-dashed rounded-2xl p-6 transition-all flex flex-col items-center gap-3 text-center ${redirectFile ? 'border-accent/40 bg-accent/5' : 'border-white/10 group-hover/red:border-white/20'}`}>
+                                                    {redirectFile ? (
+                                                        <CheckCircle2 className="text-accent" size={24} />
+                                                    ) : (
+                                                        <ImagePlus className="text-white/20" size={24} />
+                                                    )}
+                                                    <p className="font-bold text-[10px] uppercase tracking-widest leading-tight">
+                                                        {redirectFile ? redirectFile.name : 'Select File'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-accent ml-1">Usage Limit (0 for unlimited)</label>
+                                            <input
+                                                type="number"
+                                                value={redirectLimit}
+                                                onChange={(e) => setRedirectLimit(e.target.value)}
+                                                placeholder="e.g. 100"
+                                                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent transition-all font-bold text-sm"
+                                            />
+                                        </div>
+
+                                        <button
+                                            onClick={handleRedirectCreate}
+                                            disabled={isUploading}
+                                            className="w-full py-5 bg-accent text-primary rounded-2xl font-black text-[10px] uppercase tracking-widest hover:shadow-glow-accent transition-all disabled:opacity-50 flex items-center justify-center gap-3"
+                                        >
+                                            {isUploading ? <Loader2 className="animate-spin" size={16} /> : <CheckCircle2 size={16} />}
+                                            Activate Link
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* List Card */}
+                                <div className="lg:col-span-2 space-y-4">
+                                    {redirects.length === 0 ? (
+                                        <div className="bg-white/[0.02] border border-white/5 p-12 rounded-[2.5rem] text-center border-dashed">
+                                            <p className="text-text-muted font-bold uppercase tracking-[0.2em] text-[10px]">No dynamic links created yet</p>
+                                        </div>
+                                    ) : (
+                                        <div className="grid gap-4">
+                                            {redirects.map((link) => (
+                                                <div key={link.id} className="bg-white/[0.03] border border-white/5 p-5 pr-8 rounded-3xl flex items-center justify-between hover:border-white/10 transition-all group">
+                                                    <div className="flex items-center gap-6">
+                                                        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-accent/10 transition-colors">
+                                                            <Link2 className="text-accent/40 group-hover:text-accent transition-colors" size={20} />
+                                                        </div>
+                                                        <div>
+                                                            <div className="flex items-center gap-2 mb-0.5">
+                                                                <span className="text-accent font-black text-sm uppercase">/{link.slug}</span>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        navigator.clipboard.writeText(`${window.location.origin}/${link.slug}`);
+                                                                        toast.info("Link copied to clipboard");
+                                                                    }}
+                                                                    className="p-1 hover:bg-white/10 rounded transition-colors text-white/20 hover:text-white"
+                                                                >
+                                                                    <Copy size={12} />
+                                                                </button>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60">
+                                                                    Points to: {link.fileName}
+                                                                </p>
+                                                                <div className="h-1 w-1 rounded-full bg-white/20" />
+                                                                <span className="text-[10px] font-black text-accent/80 uppercase tracking-widest">
+                                                                    {link.clicks || 0} / {link.limit > 0 ? link.limit : '∞'} Hits
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-3">
+                                                        <a
+                                                            href={link.fileUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-text-muted hover:bg-accent hover:text-primary transition-all"
+                                                        >
+                                                            <ExternalLink size={16} />
+                                                        </a>
+                                                        <button
+                                                            onClick={() => handleDeleteRedirect(link.id, link.fileUrl)}
+                                                            className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-red-400/40 hover:bg-red-500 hover:text-white transition-all"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
