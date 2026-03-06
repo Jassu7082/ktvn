@@ -43,28 +43,19 @@ const DynamicRedirect = () => {
                         const blob = await response.blob();
                         const downloadUrl = window.URL.createObjectURL(blob);
 
-                        // Standard Practice: Open in new tab
-                        const newTab = window.open(downloadUrl, '_blank');
+                        // Standard Practice: Open in new tab (Pdf viewer or direct download)
+                        window.open(downloadUrl, '_blank');
 
-                        // Fallback if popup blocked: Trigger standard download in current window context
-                        if (!newTab || newTab.closed || typeof newTab.closed == 'undefined') {
-                            const link = document.createElement('a');
-                            link.href = downloadUrl;
-                            link.download = fileName || 'document.pdf';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }
-
-                        // Transition to success UI instead of auto-closing (Standard Practice)
-                        setStatus('success');
+                        // Small delay to ensure download starts, then navigate home (Standard Practice)
+                        // This keeps the tab open but redirects back to the main site
                         setTimeout(() => {
                             window.URL.revokeObjectURL(downloadUrl);
-                        }, 10000); // Wait 10s before revoking to ensure PDF viewer/download starts
+                            navigate('/', { replace: true });
+                        }, 800);
                     } catch (fetchErr) {
-                        console.warn("Masked fetch failed (likely CORS). Falling back to direct download.", fetchErr);
+                        console.warn("Masked fetch failed (likely CORS). Falling back to direct opening.", fetchErr);
                         window.open(fileUrl, '_blank');
-                        setStatus('success');
+                        navigate('/', { replace: true });
                     }
 
                     // Self-Destruct Cleanup: If limit reached, purge everything
@@ -73,13 +64,10 @@ const DynamicRedirect = () => {
                             await deleteDoc(doc(txtDB, "redirects", redirectDoc.id));
                             const fileRef = ref(imageDb, fileUrl);
                             await deleteObject(fileRef);
-                            console.log("Self-destruct: Link and file purged successfully.");
                         } catch (purgeError) {
                             console.warn("Self-destruct purge failed:", purgeError);
                         }
                     }
-
-                    // No longer needing success UI as we are closing or redirecting
                 } else {
                     setStatus('failed');
                     setErrorMsg(`The link /${slug} could not be found.`);
@@ -104,28 +92,6 @@ const DynamicRedirect = () => {
                         <h1 className="text-white text-2xl font-display font-black tracking-tight mb-2">Redirecting</h1>
                         <p className="text-text-muted text-sm uppercase tracking-widest font-bold opacity-60">Opening secure document...</p>
                     </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (status === 'success') {
-        return (
-            <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6 text-center">
-                <div className="glass p-12 rounded-[2.5rem] border border-border-light max-w-md w-full relative overflow-hidden group">
-                    <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-8">
-                        <Download className="w-8 h-8 text-accent animate-bounce" />
-                    </div>
-                    <h2 className="text-2xl font-display font-black text-white mb-4">Transfer Started</h2>
-                    <p className="text-text-secondary text-sm leading-relaxed mb-10 opacity-70">
-                        Your secure document is being opened in a new tab. If it didn't start, please check your popup blocker.
-                    </p>
-                    <button
-                        onClick={() => navigate('/')}
-                        className="w-full py-4 bg-accent text-primary rounded-2xl font-black text-xs uppercase tracking-widest hover:shadow-glow-accent transition-all flex items-center justify-center gap-3 active:scale-95"
-                    >
-                        Return Home
-                    </button>
                 </div>
             </div>
         );
