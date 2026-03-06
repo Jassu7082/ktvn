@@ -43,24 +43,28 @@ const DynamicRedirect = () => {
                         const blob = await response.blob();
                         const downloadUrl = window.URL.createObjectURL(blob);
 
-                        const link = document.createElement('a');
-                        link.href = downloadUrl;
-                        link.download = fileName || 'document.pdf';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        // Standard Practice: Open in new tab
+                        const newTab = window.open(downloadUrl, '_blank');
 
-                        // Small delay to ensure download starts before closing/redirecting
+                        // Fallback if popup blocked: Trigger standard download in current window context
+                        if (!newTab || newTab.closed || typeof newTab.closed == 'undefined') {
+                            const link = document.createElement('a');
+                            link.href = downloadUrl;
+                            link.download = fileName || 'document.pdf';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+
+                        // Transition to success UI instead of auto-closing (Standard Practice)
+                        setStatus('success');
                         setTimeout(() => {
                             window.URL.revokeObjectURL(downloadUrl);
-                            // If it's a PDF, we might want to stay in the PDF viewer
-                            // But since the user wants to "close the tab", we attempt that
-                            window.close();
-                            // Fallback: If window.close() is blocked, redirect to home or stay quiet
-                        }, 500);
+                        }, 10000); // Wait 10s before revoking to ensure PDF viewer/download starts
                     } catch (fetchErr) {
                         console.warn("Masked fetch failed (likely CORS). Falling back to direct download.", fetchErr);
-                        window.location.replace(fileUrl);
+                        window.open(fileUrl, '_blank');
+                        setStatus('success');
                     }
 
                     // Self-Destruct Cleanup: If limit reached, purge everything
@@ -92,7 +96,7 @@ const DynamicRedirect = () => {
 
     if (status === 'resolving') {
         return (
-            <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6">
+            <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6 text-center">
                 <div className="absolute inset-0 bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
                 <div className="relative z-10 flex flex-col items-center gap-6">
                     <ClipLoader color="#EAB308" size={50} />
@@ -105,9 +109,31 @@ const DynamicRedirect = () => {
         );
     }
 
+    if (status === 'success') {
+        return (
+            <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6 text-center">
+                <div className="glass p-12 rounded-[2.5rem] border border-border-light max-w-md w-full relative overflow-hidden group">
+                    <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-8">
+                        <Download className="w-8 h-8 text-accent animate-bounce" />
+                    </div>
+                    <h2 className="text-2xl font-display font-black text-white mb-4">Transfer Started</h2>
+                    <p className="text-text-secondary text-sm leading-relaxed mb-10 opacity-70">
+                        Your secure document is being opened in a new tab. If it didn't start, please check your popup blocker.
+                    </p>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="w-full py-4 bg-accent text-primary rounded-2xl font-black text-xs uppercase tracking-widest hover:shadow-glow-accent transition-all flex items-center justify-center gap-3 active:scale-95"
+                    >
+                        Return Home
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-6">
-            <div className="glass p-12 rounded-[2.5rem] border border-white/5 max-w-md w-full text-center relative overflow-hidden group">
+            <div className="glass p-12 rounded-[2.5rem] border border-border-light max-w-md w-full text-center relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <AlertCircle size={120} className="text-error -rotate-12" />
                 </div>
