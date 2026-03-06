@@ -37,18 +37,23 @@ const DynamicRedirect = () => {
                     });
 
                     // URL Masking: Fetch as Blob to keep institutional link in address bar
-                    const response = await fetch(fileUrl);
-                    if (!response.ok) throw new Error("Download failed");
-                    const blob = await response.blob();
-                    const downloadUrl = window.URL.createObjectURL(blob);
+                    try {
+                        const response = await fetch(fileUrl);
+                        if (!response.ok) throw new Error("Download failed");
+                        const blob = await response.blob();
+                        const downloadUrl = window.URL.createObjectURL(blob);
 
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.download = fileName || 'document.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(downloadUrl);
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.download = fileName || 'document.pdf';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(downloadUrl);
+                    } catch (fetchErr) {
+                        console.warn("Masked fetch failed (likely CORS). Falling back to direct download.", fetchErr);
+                        window.location.href = fileUrl;
+                    }
 
                     // Self-Destruct Cleanup: If limit reached, purge everything
                     if (limit > 0 && newClicks >= limit) {
@@ -73,7 +78,7 @@ const DynamicRedirect = () => {
             } catch (err) {
                 console.error("Redirect Error:", err);
                 setStatus('failed');
-                setErrorMsg("Institutional Error: Failed to fetch or serve the secure document.");
+                setErrorMsg("Institutional Error: Failed to resolve or serve the secure document.");
             }
         };
 
