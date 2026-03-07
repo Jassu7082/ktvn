@@ -41,18 +41,18 @@ const GalleryModal = ({ isOpen, onClose, data }) => {
                 </button>
 
                 {/* Main Viewport */}
-                <div className="lg:w-2/3 bg-black/40 flex items-center justify-center p-6 relative group/lightbox">
+                <div className="lg:w-2/3 bg-black/40 flex items-center justify-center p-6 relative">
                     {images.length > 1 && (
                         <>
                             <button
                                 onClick={handlePrev}
-                                className="absolute left-6 z-20 p-3 bg-black/40 hover:bg-accent hover:text-primary rounded-full transition-all text-white border border-white/10 opacity-0 group-hover/lightbox:opacity-100"
+                                className="absolute left-6 z-20 p-3 bg-black/40 hover:bg-accent hover:text-primary rounded-full transition-all text-white border border-white/10"
                             >
                                 <ChevronLeft className="w-6 h-6" />
                             </button>
                             <button
                                 onClick={handleNext}
-                                className="absolute right-6 z-20 p-3 bg-black/40 hover:bg-accent hover:text-primary rounded-full transition-all text-white border border-white/10 opacity-0 group-hover/lightbox:opacity-100"
+                                className="absolute right-6 z-20 p-3 bg-black/40 hover:bg-accent hover:text-primary rounded-full transition-all text-white border border-white/10"
                             >
                                 <ChevronRight className="w-6 h-6" />
                             </button>
