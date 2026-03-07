@@ -9,8 +9,9 @@ import cont3img2 from "../../assets/cont3img2.png";
 import cont3img3 from "../../assets/cont3img3.png";
 import Footer from "../Footer/Footer";
 import LazyImage from "../lib/LazyImage";
-import { Trophy, Images, ArrowRight, Maximize2, ChevronDown } from "lucide-react";
+import { Trophy, Images, ArrowRight, Maximize2, ChevronDown, GraduationCap, Heart, Rocket, Shield } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import AnimatedStats from "../about/animation";
 
 function FAQItem({ question, answer }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,6 +102,46 @@ function Home() {
         {/* Secondary Slider — Hidden on Mobile to avoid redundancy */}
         <div className="hidden lg:block lg:w-1/2 w-full relative group">
           <Slider />
+        </div>
+      </div>
+
+      {/* NEW: Institutional Excellence (Stats & Pillars) */}
+      <div className="py-20 sm:py-32 bg-[#050B14] relative border-t border-white/5 overflow-hidden">
+        {/* Background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/5 blur-[120px] rounded-[100%] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16 sm:mb-24">
+            <span className="text-accent uppercase tracking-[0.4em] font-black text-[10px] sm:text-xs mb-4 block">Institutional Scale</span>
+            <h2 className="text-4xl lg:text-5xl font-display font-black text-white tracking-tight mb-6">Excellence in <span className="text-accent">Numbers</span></h2>
+            <p className="text-text-secondary w-full max-w-2xl mx-auto text-sm sm:text-base leading-relaxed opacity-80">
+              Over a decade of consistently shaping AP's merit lists and nurturing champions in academics, arts, and athletics.
+            </p>
+          </div>
+
+          <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-12 backdrop-blur-sm mb-20 shadow-2xl">
+            <AnimatedStats />
+          </div>
+
+          {/* Core Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: GraduationCap, title: "Academic Rigor", desc: "Pushing boundaries through comprehensive English medium curriculum." },
+              { icon: Shield, title: "Character First", desc: "Instilling integrity and social responsibility in every student." },
+              { icon: Rocket, title: "Modern Skills", desc: "Equipping learners with digital literacy and critical thinking." },
+              { icon: Heart, title: "Holistic Care", desc: "A safe, nurturing environment for mental and physical growth." }
+            ].map((item, i) => (
+              <div key={i} className="group glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-glow-sm">
+                <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-primary transition-all duration-500">
+                  <item.icon size={28} strokeWidth={1.5} />
+                </div>
+                <h4 className="font-display font-bold text-white text-lg mb-3 tracking-wide">{item.title}</h4>
+                <p className="text-sm text-text-muted leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
