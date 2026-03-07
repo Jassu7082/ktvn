@@ -50,8 +50,8 @@ function Home() {
           return dateB - dateA;
         });
 
-        // Slice top 10 latest
-        setRecentGallery(allData.slice(0, 10));
+        // Slice top 3 latest
+        setRecentGallery(allData.slice(0, 3));
       } catch (e) {
         console.error("Error fetching recent moments:", e);
       }

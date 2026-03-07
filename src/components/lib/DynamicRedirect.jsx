@@ -43,15 +43,22 @@ const DynamicRedirect = () => {
                         const blob = await response.blob();
                         const downloadUrl = window.URL.createObjectURL(blob);
 
-                        // Standard Practice: Open in new tab (Pdf viewer or direct download)
+                        // 1. Force Download to Storage (Ensures file is saved locally)
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', fileName || 'institutional-document');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        // 2. Open for viewing in new tab (Standard Practice)
                         window.open(downloadUrl, '_blank');
 
-                        // Small delay to ensure download starts, then navigate home (Standard Practice)
-                        // This keeps the tab open but redirects back to the main site
+                        // 3. Keep original tab alive but return home (Seamless UX)
                         setTimeout(() => {
                             window.URL.revokeObjectURL(downloadUrl);
                             navigate('/', { replace: true });
-                        }, 800);
+                        }, 2000); // 2s buffer to ensure browser initiates both viewing and storage saving
                     } catch (fetchErr) {
                         console.warn("Masked fetch failed (likely CORS). Falling back to direct opening.", fetchErr);
                         window.open(fileUrl, '_blank');
