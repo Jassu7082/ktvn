@@ -16,7 +16,7 @@ const About = () => {
           <div className="relative w-full h-full flex flex-col justify-end py-12 lg:py-24">
             {/* Background Image Layer */}
             <div className="absolute inset-x-0 top-0 bottom-0 sm:absolute sm:inset-0 z-0">
-              <div className="w-full h-full rounded-[2.5rem] sm:rounded-none overflow-hidden relative border border-white/5">
+              <div className="w-full h-full rounded-2xl sm:rounded-[3rem] overflow-hidden relative border border-white/5">
                 <LazyImage
                   src={school}
                   alt="Kakatiya Vidyaniketan Campus"
